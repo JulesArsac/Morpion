@@ -3,9 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-      prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
-    <Button layoutX="272.0" layoutY="280.0" mnemonicParsing="false" text="Train AI"/>
-    <ProgressBar layoutX="200.0" layoutY="191.0" prefWidth="200.0" progress="0.0"/>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projetmorpion.MainController">
+    <Button layoutX="272.0" layoutY="363.0" mnemonicParsing="false" text="Train AI" fx:id="buttonTrain" onAction="#train" />
+    <ProgressBar layoutX="200.0" layoutY="291.0" prefWidth="200.0" progress="0.0" fx:id="progressBar"/>
+   <TextArea layoutX="147.0" layoutY="143.0" prefHeight="39.0" prefWidth="307.0" fx:id="textError"/>
 </Pane>
