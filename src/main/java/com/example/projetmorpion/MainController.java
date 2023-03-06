@@ -5,8 +5,8 @@ import ai.SigmoidalTransferFunction;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextArea;
 
 public class MainController {
 
@@ -14,7 +14,7 @@ public class MainController {
     double samples = 100000000 ;
 
     @FXML
-    TextArea textError;
+    Label textError;
 
     @FXML
     Button buttonTrain;

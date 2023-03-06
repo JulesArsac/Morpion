@@ -4,7 +4,12 @@
 <?import javafx.scene.layout.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projetmorpion.MainController">
-    <Button layoutX="272.0" layoutY="363.0" mnemonicParsing="false" text="Train AI" fx:id="buttonTrain" onAction="#train" />
-    <ProgressBar layoutX="200.0" layoutY="291.0" prefWidth="200.0" progress="0.0" fx:id="progressBar"/>
-   <TextArea layoutX="147.0" layoutY="143.0" prefHeight="39.0" prefWidth="307.0" fx:id="textError"/>
+    <Button fx:id="buttonTrain" layoutX="272.0" layoutY="363.0" mnemonicParsing="false" onAction="#train" text="Train AI" />
+    <ProgressBar fx:id="progressBar" layoutX="200.0" layoutY="291.0" prefWidth="200.0" progress="0.0" />
+   <Label fx:id="textError" layoutX="147.0" layoutY="157.0" prefHeight="39.0" prefWidth="307.0" textAlignment="CENTER" />
+    <MenuBar id="menuBar" layoutY="1.0" prefHeight="26.0" prefWidth="600.0">
+        <Menu mnemonicParsing="false" text="Settings">
+            <MenuItem mnemonicParsing="false" text="Difficulty" />
+        </Menu>
+    </MenuBar>
 </Pane>
