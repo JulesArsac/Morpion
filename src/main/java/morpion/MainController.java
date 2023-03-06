@@ -1,4 +1,4 @@
-package com.example.projetmorpion;
+package morpion;
 
 import ai.MultiLayerPerceptron;
 import ai.SigmoidalTransferFunction;
@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.image.Image;
+import javafx.scene.control.RadioButton;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -89,7 +89,7 @@ public class MainController {
     @FXML
     void openDifficultySettings() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("difficultySettings.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 300, 200);
+        Scene scene = new Scene(fxmlLoader.load(), 400, 300);
         Stage stage = new Stage();
         stage.setResizable(false);
         stage.setTitle("Difficulty Settings");
@@ -98,8 +98,19 @@ public class MainController {
     }
 
     @FXML
-    void validateDifficulty() {
+    RadioButton easy;
 
+    @FXML
+    RadioButton medium;
+
+    @FXML
+    RadioButton hard;
+
+    @FXML
+    void validateDifficulty() {
+        if (easy.isSelected()) System.out.println("Easy");
+        if (medium.isSelected()) System.out.println("Medium");
+        if (hard.isSelected()) System.out.println("Hard");
     }
 
 }

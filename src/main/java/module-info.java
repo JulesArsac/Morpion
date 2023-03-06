@@ -3,6 +3,6 @@ module com.example.projetmorpion {
     requires javafx.fxml;
 
 
-    opens com.example.projetmorpion to javafx.fxml;
-    exports com.example.projetmorpion;
+    opens morpion to javafx.fxml;
+    exports morpion;
 }

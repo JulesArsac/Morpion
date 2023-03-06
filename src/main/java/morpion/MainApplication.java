@@ -1,5 +1,6 @@
-package com.example.projetmorpion;
+package morpion;
 
+import ai.ConfigFileLoader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,6 +18,11 @@ public class MainApplication extends Application {
         stage.getIcons().add(new Image("file:resources/images/Enorme.jpg"));
         stage.setScene(scene);
         stage.show();
+
+
+        ConfigFileLoader c = new ConfigFileLoader();
+        c.loadConfigFile("resources/config.txt");
+        c.get("P");
     }
 
     public static void main(String[] args) {
