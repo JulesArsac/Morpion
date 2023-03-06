@@ -9,7 +9,7 @@
    <Label fx:id="textError" layoutX="147.0" layoutY="157.0" prefHeight="39.0" prefWidth="307.0" textAlignment="CENTER" />
     <MenuBar id="menuBar" layoutY="1.0" prefHeight="26.0" prefWidth="600.0">
         <Menu mnemonicParsing="false" text="Settings">
-            <MenuItem mnemonicParsing="false" text="Difficulty" />
+            <MenuItem mnemonicParsing="false" text="Difficulty" onAction="#openDifficultySettings" />
         </Menu>
     </MenuBar>
 </Pane>
