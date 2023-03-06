@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+      prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+    <Button layoutX="272.0" layoutY="280.0" mnemonicParsing="false" text="Train AI"/>
+    <ProgressBar layoutX="200.0" layoutY="191.0" prefWidth="200.0" progress="0.0"/>
+</Pane>
