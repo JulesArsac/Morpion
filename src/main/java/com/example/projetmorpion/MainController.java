@@ -9,14 +9,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class MainController {
 
-    double error = 0.0 ;
-    double samples = 100000000 ;
+    double error = 0.0;
+    double samples = 10000000;
 
     @FXML
     Label textError;
@@ -95,4 +96,10 @@ public class MainController {
         stage.setScene(scene);
         stage.show();
     }
+
+    @FXML
+    void validateDifficulty() {
+
+    }
+
 }

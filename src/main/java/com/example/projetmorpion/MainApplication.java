@@ -3,6 +3,7 @@ package com.example.projetmorpion;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ public class MainApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("trainingView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 600);
         stage.setTitle("Morpion");
+        stage.getIcons().add(new Image("file:resources/images/Enorme.jpg"));
         stage.setScene(scene);
         stage.show();
     }
