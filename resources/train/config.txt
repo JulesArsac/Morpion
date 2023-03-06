@@ -1,0 +1,3 @@
+Level	2
+Epochs	100
+Learning rate	0.01
