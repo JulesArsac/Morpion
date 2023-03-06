@@ -1,15 +1,13 @@
 package morpion;
 
+import ai.ConfigFileLoader;
 import ai.MultiLayerPerceptron;
 import ai.SigmoidalTransferFunction;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.RadioButton;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,7 +15,7 @@ import java.io.IOException;
 public class MainController {
 
     double error = 0.0;
-    double samples = 10000000;
+    double samples = 100000000;
 
     @FXML
     Label textError;
@@ -28,9 +26,12 @@ public class MainController {
     @FXML
     ProgressBar progressBar;
 
+
+
     @FXML
     void train() {
         try {
+            buttonTrain.setDisable(true);
             System.out.println();
             System.out.println("START TRAINING ...");
             System.out.println();
@@ -69,6 +70,7 @@ public class MainController {
                     System.out.println("Learning completed!");
                     updateMessage("Learning completed!");
 
+                    buttonTrain.setDisable(false);
                     return 0;
                 }
             };
@@ -96,21 +98,4 @@ public class MainController {
         stage.setScene(scene);
         stage.show();
     }
-
-    @FXML
-    RadioButton easy;
-
-    @FXML
-    RadioButton medium;
-
-    @FXML
-    RadioButton hard;
-
-    @FXML
-    void validateDifficulty() {
-        if (easy.isSelected()) System.out.println("Easy");
-        if (medium.isSelected()) System.out.println("Medium");
-        if (hard.isSelected()) System.out.println("Hard");
-    }
-
 }

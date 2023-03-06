@@ -18,11 +18,6 @@ public class MainApplication extends Application {
         stage.getIcons().add(new Image("file:resources/images/Enorme.jpg"));
         stage.setScene(scene);
         stage.show();
-
-
-        ConfigFileLoader c = new ConfigFileLoader();
-        c.loadConfigFile("resources/config.txt");
-        System.out.println(c.get("F").hiddenLayerSize);
     }
 
     public static void main(String[] args) {

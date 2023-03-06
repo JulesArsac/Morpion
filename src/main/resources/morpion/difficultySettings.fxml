@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.DifficultyController">
    <children>
       <RadioButton fx:id="easy" alignment="CENTER_LEFT" layoutX="14.0" layoutY="92.0" mnemonicParsing="false" selected="true" text="Easy" textAlignment="CENTER">
          <toggleGroup>
@@ -11,16 +11,16 @@
          </toggleGroup></RadioButton>
       <RadioButton fx:id="medium" alignment="CENTER_LEFT" layoutX="14.0" layoutY="142.0" mnemonicParsing="false" text="Medium" textAlignment="CENTER" toggleGroup="$radioDiff" />
       <RadioButton fx:id="hard" alignment="CENTER_LEFT" layoutX="14.0" layoutY="192.0" mnemonicParsing="false" text="Hard" textAlignment="CENTER" toggleGroup="$radioDiff" />
-      <TextField layoutX="108.0" layoutY="88.0" prefHeight="25.0" prefWidth="79.0" />
+      <TextField fx:id="ndEasy" layoutX="108.0" layoutY="88.0" prefHeight="25.0" prefWidth="79.0" />
       <Button layoutX="174.0" layoutY="246.0" mnemonicParsing="false" onAction="#validateDifficulty" prefWidth="66.0" text="Valider" />
-      <TextField layoutX="200.0" layoutY="88.0" prefHeight="25.0" prefWidth="79.0" />
-      <TextField layoutX="293.0" layoutY="88.0" prefHeight="25.0" prefWidth="79.0" />
-      <TextField layoutX="108.0" layoutY="138.0" prefHeight="25.0" prefWidth="79.0" />
-      <TextField layoutX="200.0" layoutY="138.0" prefHeight="25.0" prefWidth="79.0" />
-      <TextField layoutX="293.0" layoutY="138.0" prefHeight="25.0" prefWidth="79.0" />
-      <TextField layoutX="108.0" layoutY="188.0" prefHeight="25.0" prefWidth="79.0" />
-      <TextField layoutX="200.0" layoutY="188.0" prefHeight="25.0" prefWidth="79.0" />
-      <TextField layoutX="293.0" layoutY="188.0" prefHeight="25.0" prefWidth="79.0" />
+      <TextField fx:id="learnEasy" layoutX="200.0" layoutY="88.0" prefHeight="25.0" prefWidth="79.0" />
+      <TextField fx:id="layEasy" layoutX="293.0" layoutY="88.0" prefHeight="25.0" prefWidth="79.0" />
+      <TextField fx:id="ndMedium" layoutX="108.0" layoutY="138.0" prefHeight="25.0" prefWidth="79.0" />
+      <TextField fx:id="learnMedium" layoutX="200.0" layoutY="138.0" prefHeight="25.0" prefWidth="79.0" />
+      <TextField fx:id="layMedium" layoutX="293.0" layoutY="138.0" prefHeight="25.0" prefWidth="79.0" />
+      <TextField fx:id="ndHard" layoutX="108.0" layoutY="188.0" prefHeight="25.0" prefWidth="79.0" />
+      <TextField fx:id="learnHard" layoutX="200.0" layoutY="188.0" prefHeight="25.0" prefWidth="79.0" />
+      <TextField fx:id="layHard" layoutX="293.0" layoutY="188.0" prefHeight="25.0" prefWidth="79.0" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="108.0" layoutY="41.0" prefHeight="40.0" prefWidth="79.0" text="Nodes count" textAlignment="CENTER" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="199.0" layoutY="41.0" prefHeight="40.0" prefWidth="79.0" text="Learning rate" textAlignment="CENTER" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="292.0" layoutY="41.0" prefHeight="40.0" prefWidth="79.0" text="Layers count" textAlignment="CENTER" />
