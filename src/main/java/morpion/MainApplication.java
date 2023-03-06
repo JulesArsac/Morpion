@@ -22,7 +22,7 @@ public class MainApplication extends Application {
 
         ConfigFileLoader c = new ConfigFileLoader();
         c.loadConfigFile("resources/config.txt");
-        c.get("P");
+        System.out.println(c.get("F").hiddenLayerSize);
     }
 
     public static void main(String[] args) {
