@@ -2,6 +2,7 @@ package morpion;
 
 import ai.ConfigFileLoader;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,7 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.IntegerStringConverter;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -42,6 +46,18 @@ public class DifficultyController {
         ConfigFileLoader configuration = new ConfigFileLoader();
         configuration.loadConfigFile("resources/config.txt");
 
+
+        setNumericTextFormater(ndEasy);
+        setNumericTextFormater(ndMedium);
+        setNumericTextFormater(ndHard);
+        setFloatTextFormater(learnEasy);
+        setFloatTextFormater(learnMedium);
+        setFloatTextFormater(learnHard);
+        setNumericTextFormater(layEasy);
+        setNumericTextFormater(layMedium);
+        setNumericTextFormater(layHard);
+
+
         ndEasy.setText(Integer.toString(configuration.get("F").hiddenLayerSize));
         ndMedium.setText(Integer.toString(configuration.get("M").hiddenLayerSize));
         ndHard.setText(Integer.toString(configuration.get("D").hiddenLayerSize));
@@ -55,14 +71,29 @@ public class DifficultyController {
         layHard.setText(Integer.toString(configuration.get("D").numberOfhiddenLayers));
     }
 
-    @FXML
-    RadioButton easy;
+    public void setNumericTextFormater(TextField textfield) {
+        TextFormatter<Integer> formatter = new TextFormatter<>(new IntegerStringConverter(), 0,
+                change -> {
+                    String newText = change.getControlNewText();
+                    if (newText.matches("\\d*")) {
+                        return change;
+                    }
+                    return null;
+                });
+        textfield.setTextFormatter(formatter);
+    }
 
-    @FXML
-    RadioButton medium;
-
-    @FXML
-    RadioButton hard;
+    public void setFloatTextFormater(TextField textfield) {
+        TextFormatter<Double> formatter = new TextFormatter<>(new DoubleStringConverter(), 0.0,
+                change -> {
+                    String newText = change.getControlNewText();
+                    if (newText.matches("\\d*\\.?\\d*")) {
+                        return change;
+                    }
+                    return null;
+                });
+        textfield.setTextFormatter(formatter);
+    }
 
     @FXML
     Button quitButton;

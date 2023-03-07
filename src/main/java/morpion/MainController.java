@@ -26,7 +26,8 @@ public class MainController {
     @FXML
     ProgressBar progressBar;
 
-
+    @FXML
+    Button singlePlayerButton;
 
     @FXML
     void train() {
@@ -97,5 +98,10 @@ public class MainController {
         stage.setTitle("Difficulty Settings");
         stage.setScene(scene);
         stage.show();
+    }
+
+    @FXML
+    void onSinglePlayerButtonClick() {
+
     }
 }
