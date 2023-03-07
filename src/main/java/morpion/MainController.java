@@ -20,6 +20,7 @@ public class MainController {
 
     double error = 0.0;
     double samples = 100000000;
+    @FXML
     private String difficulty = "M";
 
     private Parent root;
@@ -37,6 +38,9 @@ public class MainController {
     Button singlePlayerButton;
 
     @FXML
+    Button backToMenu;
+
+    @FXML
     RadioButton easyRadio;
 
     @FXML
@@ -52,6 +56,16 @@ public class MainController {
         Stage stage = new Stage();
         stage.setResizable(false);
         stage.setTitle("Difficulty Settings");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    void backToMenu(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("trainingView.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }

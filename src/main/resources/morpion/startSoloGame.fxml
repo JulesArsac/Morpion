@@ -17,7 +17,7 @@
     </MenuBar>
    <RadioButton fx:id="easyRadio" contentDisplay="CENTER" layoutX="100.0" layoutY="400.0" mnemonicParsing="false" textAlignment="CENTER">
       <toggleGroup>
-         <ToggleGroup fx:id="difficulty" />
+         <ToggleGroup fx:id="$difficulty" />
       </toggleGroup></RadioButton>
    <RadioButton fx:id="mediumRadio" layoutX="300.0" layoutY="400.0" mnemonicParsing="false" selected="true" toggleGroup="$difficulty" />
    <RadioButton fx:id="hardRadio" layoutX="500.0" layoutY="400.0" mnemonicParsing="false" toggleGroup="$difficulty" />
@@ -26,5 +26,6 @@
    <Label layoutX="95.0" layoutY="420.0" text="Easy" />
    <Label layoutX="287.0" layoutY="420.0" text="Medium" />
    <Label layoutX="495.0" layoutY="420.0" text="Hard" />
-   <Button fx:id="buttonValidate" onAction="#onClickButtonValidate" layoutX="285.0" layoutY="520.0" mnemonicParsing="false" text="Jouer" />
+   <Button fx:id="buttonValidate" layoutX="285.0" layoutY="520.0" mnemonicParsing="false" onAction="#onClickButtonValidate" text="Jouer" />
+   <Button fx:id="backToMenu" onAction="#backToMenu" layoutX="14.0" layoutY="42.0" mnemonicParsing="false" text="Back to menu" />
 </Pane>
