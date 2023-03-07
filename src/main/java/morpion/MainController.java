@@ -112,6 +112,7 @@ public class MainController {
         root = FXMLLoader.load(getClass().getResource("startSoloGame.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }

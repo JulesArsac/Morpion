@@ -17,6 +17,7 @@ public class MainApplication extends Application {
         stage.setTitle("TicTacToe");
         stage.getIcons().add(new Image("file:resources/images/Enorme.jpg"));
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 
