@@ -40,7 +40,10 @@ public class DifficultyController {
     TextField layMedium;
     @FXML
     TextField layHard;
-
+    @FXML
+    Button quitButton;
+    @FXML
+    Button resetButton;
 
     public void initialize(){
         ConfigFileLoader configuration = new ConfigFileLoader();
@@ -94,13 +97,8 @@ public class DifficultyController {
     }
 
     @FXML
-    Button quitButton;
-
-    @FXML
-    Button resetButton;
-
-    @FXML
     void validateDifficulty() throws IOException {
+        Boolean validate = true;
         String ndEasyValue = ndEasy.getText();
         String layEasyValue = layEasy.getText();
         String learnEasyValue = learnEasy.getText();
@@ -113,10 +111,41 @@ public class DifficultyController {
         String layHardValue = layHard.getText();
         String learnHardValue = learnHard.getText();
         parameters += "D:" + ndHardValue + ":" + learnHardValue + ":" + layHardValue;
-        File config = new File("resources/config.txt");
-        FileWriter writer = new FileWriter(config, false);
-        writer.write(parameters);
-        writer.close();
+
+        if (ndEasyValue.isEmpty()) {
+            validate = false;
+        }
+        if (layEasyValue.isEmpty()) {
+            validate = false;
+        }
+        if (learnEasyValue.isEmpty()) {
+            validate = false;
+        }
+        if (ndMediumValue.isEmpty()) {
+            validate = false;
+        }
+        if (layMediumValue.isEmpty()) {
+            validate = false;
+        }
+        if (learnMediumValue.isEmpty()) {
+            validate = false;
+        }
+        if (ndHardValue.isEmpty()) {
+            validate = false;
+        }
+        if (layHardValue.isEmpty()) {
+            validate = false;
+        }
+        if (learnHardValue.isEmpty()) {
+            validate = false;
+        }
+
+        if (validate == true) {
+            File config = new File("resources/config.txt");
+            FileWriter writer = new FileWriter(config, false);
+            writer.write(parameters);
+            writer.close();
+        };
     }
 
     @FXML
