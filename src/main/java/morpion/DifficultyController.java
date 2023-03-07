@@ -7,10 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
@@ -44,6 +41,10 @@ public class DifficultyController {
     Button quitButton;
     @FXML
     Button resetButton;
+    @FXML
+    Label errorMessage;
+    @FXML
+    Label successMessage;
 
     public void initialize(){
         ConfigFileLoader configuration = new ConfigFileLoader();
@@ -112,35 +113,16 @@ public class DifficultyController {
         String learnHardValue = learnHard.getText();
         parameters += "D:" + ndHardValue + ":" + learnHardValue + ":" + layHardValue;
 
-        if (ndEasyValue.isEmpty()) {
+        if ((ndEasyValue.isBlank()) || (layEasyValue.isBlank()) || (learnEasyValue.isBlank()) || (ndMediumValue.isBlank()) || (layMediumValue.isBlank())
+                || (learnMediumValue.isBlank()) || (ndHardValue.isBlank()) || (layHardValue.isBlank()) || (learnHardValue.isBlank())) {
             validate = false;
-        }
-        if (layEasyValue.isEmpty()) {
-            validate = false;
-        }
-        if (learnEasyValue.isEmpty()) {
-            validate = false;
-        }
-        if (ndMediumValue.isEmpty()) {
-            validate = false;
-        }
-        if (layMediumValue.isEmpty()) {
-            validate = false;
-        }
-        if (learnMediumValue.isEmpty()) {
-            validate = false;
-        }
-        if (ndHardValue.isEmpty()) {
-            validate = false;
-        }
-        if (layHardValue.isEmpty()) {
-            validate = false;
-        }
-        if (learnHardValue.isEmpty()) {
-            validate = false;
+            successMessage.setVisible(false);
+            errorMessage.setVisible(true);
         }
 
-        if (validate == true) {
+        if (validate) {
+            errorMessage.setVisible(false);
+            successMessage.setVisible(true);
             File config = new File("resources/config.txt");
             FileWriter writer = new FileWriter(config, false);
             writer.write(parameters);
