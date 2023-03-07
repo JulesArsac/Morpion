@@ -15,17 +15,19 @@
             <MenuItem mnemonicParsing="false" onAction="#openDifficultySettings" text="Difficulty" />
         </Menu>
     </MenuBar>
-   <RadioButton fx:id="easyRadio" contentDisplay="CENTER" layoutX="100.0" layoutY="400.0" mnemonicParsing="false" textAlignment="CENTER">
+   <RadioButton fx:id="easyRadio" contentDisplay="CENTER" layoutX="100.0" layoutY="400.0" mnemonicParsing="false" textAlignment="CENTER" translateY="50.0">
       <toggleGroup>
-         <ToggleGroup fx:id="$difficulty" />
+         <ToggleGroup fx:id="mode" />
       </toggleGroup></RadioButton>
-   <RadioButton fx:id="mediumRadio" layoutX="300.0" layoutY="400.0" mnemonicParsing="false" selected="true" toggleGroup="$difficulty" />
-   <RadioButton fx:id="hardRadio" layoutX="500.0" layoutY="400.0" mnemonicParsing="false" toggleGroup="$difficulty" />
+   <RadioButton fx:id="mediumRadio" layoutX="300.0" layoutY="400.0" mnemonicParsing="false" selected="true" toggleGroup="$mode" translateY="50.0" />
+   <RadioButton fx:id="hardRadio" layoutX="500.0" layoutY="400.0" mnemonicParsing="false" toggleGroup="$mode" translateY="50.0" />
    <TextField layoutX="232.0" layoutY="275.0" />
    <Label layoutX="248.0" layoutY="250.0" text="Enter Your Username" />
-   <Label layoutX="95.0" layoutY="420.0" text="Easy" />
-   <Label layoutX="287.0" layoutY="420.0" text="Medium" />
-   <Label layoutX="495.0" layoutY="420.0" text="Hard" />
+   <Label layoutX="95.0" layoutY="420.0" text="Easy" translateY="50.0" />
+   <Label layoutX="287.0" layoutY="420.0" text="Medium" translateY="50.0" />
+   <Label layoutX="495.0" layoutY="420.0" text="Hard" translateY="50.0" />
    <Button fx:id="buttonValidate" layoutX="285.0" layoutY="520.0" mnemonicParsing="false" onAction="#onClickButtonValidate" text="Jouer" />
-   <Button fx:id="backToMenu" onAction="#backToMenu" layoutX="14.0" layoutY="42.0" mnemonicParsing="false" text="Back to menu" />
+   <Button fx:id="backToMenu" layoutX="14.0" layoutY="42.0" mnemonicParsing="false" onAction="#backToMenu" text="Back to menu" />
+   <ProgressBar fx:id="progressBar" layoutX="204.0" layoutY="400.0" prefWidth="200.0" progress="0.0" visible="false" />
+   <Label fx:id="textError" alignment="CENTER" contentDisplay="CENTER" layoutX="184.0" layoutY="373.0" prefHeight="26.0" prefWidth="241.0" text="Label" textAlignment="CENTER" visible="false" />
 </Pane>

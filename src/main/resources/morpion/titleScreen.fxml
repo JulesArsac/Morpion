@@ -5,8 +5,6 @@
 <?import javafx.scene.text.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
-    <ProgressBar fx:id="progressBar" layoutX="200.0" layoutY="291.0" prefWidth="200.0" progress="0.0" visible="false" />
-   <Label fx:id="textError" alignment="CENTER" contentDisplay="CENTER" layoutX="147.0" layoutY="245.0" prefHeight="39.0" prefWidth="307.0" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" />
    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="80.0" prefHeight="50.0" prefWidth="400.0" text="TicTacToe" textAlignment="CENTER">
       <font>
          <Font name="Bookshelf Symbol 7" size="50.0" />
@@ -17,7 +15,7 @@
             <MenuItem mnemonicParsing="false" onAction="#openDifficultySettings" text="Difficulty" />
         </Menu>
     </MenuBar>
-   <Button fx:id="singlePlayerButton" alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="250.0" mnemonicParsing="false" onAction="#onSinglePlayerButtonClick" prefHeight="70.0" prefWidth="200.0" text="Single Player" textAlignment="CENTER">
+   <Button fx:id="singlePlayerButton" alignment="CENTER" contentDisplay="CENTER" layoutX="201.0" layoutY="274.0" mnemonicParsing="false" onAction="#onSinglePlayerButtonClick" prefHeight="70.0" prefWidth="200.0" text="Single Player" textAlignment="CENTER">
       <font>
          <Font size="20.0" />
       </font></Button>
