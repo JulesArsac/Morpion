@@ -15,12 +15,12 @@
             <MenuItem mnemonicParsing="false" onAction="#openDifficultySettings" text="Difficulty" />
         </Menu>
     </MenuBar>
-   <RadioButton contentDisplay="CENTER" layoutX="100.0" layoutY="400.0" mnemonicParsing="false" textAlignment="CENTER">
+   <RadioButton fx:id="easyRadio" contentDisplay="CENTER" layoutX="100.0" layoutY="400.0" mnemonicParsing="false" textAlignment="CENTER">
       <toggleGroup>
          <ToggleGroup fx:id="difficulty" />
       </toggleGroup></RadioButton>
-   <RadioButton layoutX="300.0" layoutY="400.0" mnemonicParsing="false" selected="true" toggleGroup="$difficulty" />
-   <RadioButton layoutX="500.0" layoutY="400.0" mnemonicParsing="false" toggleGroup="$difficulty" />
+   <RadioButton fx:id="mediumRadio" layoutX="300.0" layoutY="400.0" mnemonicParsing="false" selected="true" toggleGroup="$difficulty" />
+   <RadioButton fx:id="hardRadio" layoutX="500.0" layoutY="400.0" mnemonicParsing="false" toggleGroup="$difficulty" />
    <TextField layoutX="232.0" layoutY="275.0" />
    <Label layoutX="248.0" layoutY="250.0" text="Enter Your Username" />
    <Label layoutX="95.0" layoutY="420.0" text="Easy" />
