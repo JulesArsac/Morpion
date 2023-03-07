@@ -4,8 +4,11 @@ import ai.ConfigFileLoader;
 import ai.MultiLayerPerceptron;
 import ai.SigmoidalTransferFunction;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -16,6 +19,10 @@ public class MainController {
 
     double error = 0.0;
     double samples = 100000000;
+
+    private Parent root;
+    private Scene scene;
+    private Stage stage;
 
     @FXML
     Label textError;
@@ -101,7 +108,11 @@ public class MainController {
     }
 
     @FXML
-    void onSinglePlayerButtonClick() {
-
+    void onSinglePlayerButtonClick(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("startSoloGame.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }

@@ -46,7 +46,6 @@ public class DifficultyController {
         ConfigFileLoader configuration = new ConfigFileLoader();
         configuration.loadConfigFile("resources/config.txt");
 
-
         setNumericTextFormater(ndEasy);
         setNumericTextFormater(ndMedium);
         setNumericTextFormater(ndHard);
@@ -56,7 +55,6 @@ public class DifficultyController {
         setNumericTextFormater(layEasy);
         setNumericTextFormater(layMedium);
         setNumericTextFormater(layHard);
-
 
         ndEasy.setText(Integer.toString(configuration.get("F").hiddenLayerSize));
         ndMedium.setText(Integer.toString(configuration.get("M").hiddenLayerSize));

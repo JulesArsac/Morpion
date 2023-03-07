@@ -18,7 +18,7 @@
             <MenuItem mnemonicParsing="false" onAction="#openDifficultySettings" text="Difficulty" />
         </Menu>
     </MenuBar>
-   <Button fx:id="singlePlayerButton" onAction="#onSinglePlayerButtonClick" alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="250.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="200.0" text="Single Player" textAlignment="CENTER">
+   <Button fx:id="singlePlayerButton" alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="250.0" mnemonicParsing="false" onAction="#onSinglePlayerButtonClick" prefHeight="70.0" prefWidth="200.0" text="Single Player" textAlignment="CENTER">
       <font>
          <Font size="20.0" />
       </font></Button>
