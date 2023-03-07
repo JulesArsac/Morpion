@@ -26,4 +26,5 @@
    <Label layoutX="95.0" layoutY="420.0" text="Easy" />
    <Label layoutX="287.0" layoutY="420.0" text="Medium" />
    <Label layoutX="495.0" layoutY="420.0" text="Hard" />
+   <Button fx:id="buttonValidate" onAction="#onClickButtonValidate" layoutX="285.0" layoutY="520.0" mnemonicParsing="false" text="Jouer" />
 </Pane>
