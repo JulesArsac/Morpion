@@ -66,7 +66,7 @@ public class MainController {
     @FXML
     void openModelSettings() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("deleteConfigs.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 300, 400);
         Stage stage = new Stage();
         stage.setResizable(false);
         stage.setTitle("Manage models");
@@ -99,16 +99,18 @@ public class MainController {
 
     @FXML
     void onClickButtonValidate(ActionEvent event) throws IOException {
-
+        backToMenu.setDisable(true);
         try {
 
             if (easyRadio.isSelected()) {
                 difficulty = "F";
+                epochs = 1000;
             } else if (mediumRadio.isSelected()) {
                 difficulty = "M";
+                epochs = 10000;
             } else {
                 difficulty = "D";
-                epochs = 100000;
+                epochs = 1000000;
             }
             ConfigFileLoader configuration = new ConfigFileLoader();
             configuration.loadConfigFile("resources/config.txt");
@@ -188,6 +190,7 @@ public class MainController {
 
                         net.save(modelpath);
                         buttonValidate.setDisable(false);
+                        backToMenu.setDisable(false);
                         return 0;
                     }
                 };
@@ -195,6 +198,7 @@ public class MainController {
                 progressBar.progressProperty().bind(trainingTask.progressProperty());
                 textError.textProperty().bind(trainingTask.messageProperty());
                 trainingThread.start();
+
             }
         }
         catch (Exception e) {
