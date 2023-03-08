@@ -132,7 +132,7 @@ public class DifficultyController {
 
     @FXML
     void resetValues() throws IOException {
-        String parameters = "F:256:0.1:2\nM:512:0.01:2\nD:1024:0.001:3";
+        String parameters = "F:256:0.1:2\nM:512:0.01:2\nD:1024:0.001:2";
         File config = new File("resources/config.txt");
         FileWriter writer = new FileWriter(config, false);
         writer.write(parameters);

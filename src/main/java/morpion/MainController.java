@@ -24,6 +24,7 @@ import static ai.Test.loadCoupsFromFile;
 public class MainController {
 
     double error = 0.0;
+    double epochs = 1000000;
 
     private Parent root;
     private Scene scene;
@@ -63,6 +64,17 @@ public class MainController {
     }
 
     @FXML
+    void openModelSettings() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("deleteConfigs.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Stage stage = new Stage();
+        stage.setResizable(false);
+        stage.setTitle("Manage models");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
     void backToMenu(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("titleScreen.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -89,12 +101,14 @@ public class MainController {
     void onClickButtonValidate(ActionEvent event) throws IOException {
 
         try {
+
             if (easyRadio.isSelected()) {
                 difficulty = "F";
             } else if (mediumRadio.isSelected()) {
                 difficulty = "M";
             } else {
                 difficulty = "D";
+                epochs = 100000;
             }
             ConfigFileLoader configuration = new ConfigFileLoader();
             configuration.loadConfigFile("resources/config.txt");
@@ -133,7 +147,6 @@ public class MainController {
 
                         double error = 0.0;
                         MultiLayerPerceptron net = new MultiLayerPerceptron(layers, configuration.get(difficulty).learningRate, new SigmoidalTransferFunction());
-                        double epochs = 10000000;
 
                         System.out.println("---");
                         System.out.println("Load data ...");
@@ -152,7 +165,12 @@ public class MainController {
                             error += net.backPropagate(c.in, c.out);
 
 
-                            if (i % 10000 == 0) {
+                            if (i % 10000 == 0 && difficulty != "D") {
+                                System.out.println("Error at step " + i + " is " + (error / (double) i));
+                                updateMessage("Error at step "+i+" is "+ (error/(double)i));
+                                updateProgress(i, epochs);
+                            }
+                            else if (i % 100 == 0 && difficulty == "D") {
                                 System.out.println("Error at step " + i + " is " + (error / (double) i));
                                 updateMessage("Error at step "+i+" is "+ (error/(double)i));
                                 updateProgress(i, epochs);

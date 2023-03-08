@@ -10,6 +10,7 @@
    <MenuBar id="menuBar" layoutY="1.0" prefHeight="26.0" prefWidth="600.0">
       <Menu mnemonicParsing="false" text="Settings">
          <MenuItem mnemonicParsing="false" onAction="#openDifficultySettings" text="Difficulty" />
+         <MenuItem mnemonicParsing="false" onAction="#openModelSettings" text="Models" />
       </Menu>
    </MenuBar>
 </Pane>
