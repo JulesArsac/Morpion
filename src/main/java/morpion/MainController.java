@@ -4,6 +4,7 @@ import ai.ConfigFileLoader;
 import ai.Coup;
 import ai.MultiLayerPerceptron;
 import ai.SigmoidalTransferFunction;
+import javafx.animation.*;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,11 +18,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 
 import static ai.Test.loadCoupsFromFile;
 import static ai.Test.play;
@@ -318,5 +323,44 @@ public class MainController {
                 playGrid.getChildren().add(imageView);
                 break;
         }
+    }
+
+    Image animImage = new Image("file:resources/images/Enorme.jpg");
+    @FXML
+    ImageView myImage;
+
+    public void initialize() {
+        myImage.setImage(animImage);
+        myImage.toBack();
+        // translate
+        TranslateTransition translate = new TranslateTransition();
+        translate.setByX(-700);
+        translate.setByY(-700);
+        translate.setDuration(Duration.millis(5000));
+        translate.setCycleCount(TranslateTransition.INDEFINITE);
+        translate.setAutoReverse(true);
+        translate.setNode(myImage);
+        translate.play();
+
+        // rotate
+        RotateTransition rotate = new RotateTransition();
+        rotate.setNode(myImage);
+        rotate.setDuration(Duration.millis(3000));
+        rotate.setCycleCount(TranslateTransition.INDEFINITE);
+        rotate.setInterpolator(Interpolator.LINEAR);
+        rotate.setByAngle(360);
+        rotate.setAxis(Rotate.Z_AXIS);
+        rotate.play();
+
+        // scale
+        ScaleTransition scale = new ScaleTransition();
+        scale.setNode(myImage);
+        scale.setDuration(Duration.millis(10000));
+        scale.setCycleCount(TranslateTransition.INDEFINITE);
+        scale.setInterpolator(Interpolator.LINEAR);
+        scale.setByX(1.5);
+        scale.setByY(1.5);
+        scale.setAutoReverse(true);
+        scale.play();
     }
 }

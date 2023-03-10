@@ -1,16 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="80.0" prefHeight="50.0" prefWidth="400.0" text="TicTacToe" textAlignment="CENTER">
       <font>
-         <Font name="Bookshelf Symbol 7" size="50.0" />
+         <Font name="Bookshelf Symbol 7" size="72.0" />
       </font>
+      <textFill>
+         <LinearGradient endX="1.0" endY="1.0">
+            <stops>
+               <Stop>
+                  <color>
+                     <Color red="0.05918128788471222" green="0.11578947305679321" blue="0.09503313899040222" />
+                  </color>
+               </Stop>
+               <Stop offset="0.9846390168970814">
+                  <color>
+                     <Color green="1.0" blue="0.3836206793785095" />
+                  </color>
+               </Stop>
+               <Stop offset="1.0">
+                  <color>
+                     <Color red="0.021520467475056648" green="0.7263157963752747" blue="0.29169201850891113" />
+                  </color>
+               </Stop>
+            </stops>
+         </LinearGradient>
+      </textFill>
    </Label>
-    <MenuBar id="menuBar" layoutY="1.0" prefHeight="26.0" prefWidth="600.0">
+    <MenuBar id="menuBar" prefHeight="26.0" prefWidth="600.0">
         <Menu mnemonicParsing="false" text="Settings">
             <MenuItem mnemonicParsing="false" onAction="#openDifficultySettings" text="Difficulty" />
             <MenuItem mnemonicParsing="false" onAction="#openModelSettings" text="Models" />
@@ -25,4 +48,35 @@
          <Font size="20.0" />
       </font>
    </Button>
+   <Label layoutX="265.0" layoutY="150.0" text="The game of champions">
+      <font>
+         <Font name="Lucida Calligraphy Italic" size="18.0" />
+      </font>
+      <textFill>
+         <LinearGradient endX="1.0" endY="1.0">
+            <stops>
+               <Stop>
+                  <color>
+                     <Color red="0.12569200992584229" green="0.5473684072494507" blue="0.3435581624507904" />
+                  </color>
+               </Stop>
+               <Stop offset="0.9846390168970814">
+                  <color>
+                     <Color green="1.0" blue="0.3836206793785095" />
+                  </color>
+               </Stop>
+               <Stop offset="1.0">
+                  <color>
+                     <Color green="1.0" blue="0.3836206793785095" />
+                  </color>
+               </Stop>
+            </stops>
+         </LinearGradient>
+      </textFill>
+   </Label>
+   <ImageView fx:id="myImage" fitHeight="150.0" fitWidth="200.0" layoutX="450.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../../../resources/images/Enorme.jpg" />
+      </image>
+   </ImageView>
 </Pane>
