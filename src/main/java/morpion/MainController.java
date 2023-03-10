@@ -318,7 +318,7 @@ public class MainController {
         Image O = new Image("file:resources/images/O.png");
         ImageView imageViewX = new ImageView(X);
         ImageView imageViewO = new ImageView(O);
-        ImageView imageView;
+        ImageView imageView = null;
         GridPane.setMargin(imageViewX, new Insets(25, 25, 25, 25));
         GridPane.setMargin(imageViewO, new Insets(25, 25, 25, 25));
         if (isXturn) isXturn = false;
@@ -327,61 +327,60 @@ public class MainController {
             case "b1":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
-                playGrid.getChildren().add(imageView);
+
                 break;
             case "b2":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
                 GridPane.setColumnIndex(imageView, 1);
-                playGrid.getChildren().add(imageView);
                 break;
             case "b3":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
                 GridPane.setColumnIndex(imageView, 2);
-                playGrid.getChildren().add(imageView);
                 break;
             case "b4":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
                 GridPane.setRowIndex(imageView, 1);
-                playGrid.getChildren().add(imageView);
                 break;
             case "b5":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
                 GridPane.setRowIndex(imageView, 1);
                 GridPane.setColumnIndex(imageView, 1);
-                playGrid.getChildren().add(imageView);
                 break;
             case "b6":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
                 GridPane.setRowIndex(imageView, 1);
                 GridPane.setColumnIndex(imageView, 2);
-                playGrid.getChildren().add(imageView);
                 break;
             case "b7":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
                 GridPane.setRowIndex(imageView, 2);
-                playGrid.getChildren().add(imageView);
                 break;
             case "b8":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
                 GridPane.setRowIndex(imageView, 2);
                 GridPane.setColumnIndex(imageView, 1);
-                playGrid.getChildren().add(imageView);
                 break;
             case "b9":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
                 GridPane.setRowIndex(imageView, 2);
                 GridPane.setColumnIndex(imageView, 2);
-                playGrid.getChildren().add(imageView);
                 break;
         }
+        FadeTransition fade = new FadeTransition();
+        fade.setDuration(Duration.millis(500));
+        fade.setFromValue(0);
+        fade.setToValue(10);
+        fade.setNode(imageView);
+        fade.play();
+        playGrid.getChildren().add(imageView);
     }
 
     Image animImage = new Image("file:resources/images/Enorme.jpg");
