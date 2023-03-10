@@ -397,20 +397,21 @@ public class MainController {
         double randOpacity = 0.1 + Math.random() * (0.9 - 0.1);
         double randSpeedMove = (int) (Math.random() * (8000 - 4000)) + 4000;
         double randSize =  0.05 + Math.random() * (0.5 - 0.05);
-        double randPos = (int) (Math.random() * (635 - 0)) + 0;
+        double randPos = (int) (Math.random() * 635);
+        double randRot = Math.random() * 360;
+
         double imageWidth = imageTitleScreen.getBoundsInLocal().getWidth();
         double imageHeight = imageTitleScreen.getBoundsInLocal().getHeight();
 
         imageTitleScreen.setTranslateX(-imageWidth / 2 + randPos);
         imageTitleScreen.setTranslateY(-imageHeight / 2 - 100);
+        imageTitleScreen.setRotate(randRot);
         imageTitleScreen.setOpacity(randOpacity);
         imageTitleScreen.setScaleX(randSize);
         imageTitleScreen.setScaleY(randSize);
         mainPane.getChildren().add(imageTitleScreen);
         imageTitleScreen.toBack();
 
-
-        // translate
         TranslateTransition translate = new TranslateTransition();
         translate.setByY(900);
         translate.setDuration(Duration.millis(randSpeedMove));
@@ -421,7 +422,6 @@ public class MainController {
         });
         translate.play();
 
-        // rotate
         RotateTransition rotate = new RotateTransition();
         rotate.setNode(imageTitleScreen);
         rotate.setDuration(Duration.millis(10000));
@@ -449,7 +449,5 @@ public class MainController {
             }));
             delayBackground.play();
         }
-
     }
-
 }
