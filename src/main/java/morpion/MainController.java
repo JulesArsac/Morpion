@@ -17,16 +17,16 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.ResourceBundle;
 
 import static ai.Test.loadCoupsFromFile;
 
@@ -40,7 +40,7 @@ public class MainController {
     private String difficulty = "M";
     boolean isXturn = false;
     static boolean isMulti = false;
-    String username1 = "Théodule";
+    String username1 = "Quoi";
     String username2 = "Feur";
 
     @FXML
@@ -95,6 +95,9 @@ public class MainController {
     Button b9;
     @FXML
     GridPane playGrid;
+
+    @FXML
+    Pane mainPane;
 
     @FXML
     void openDifficultySettings() throws IOException {
@@ -315,7 +318,7 @@ public class MainController {
         Image O = new Image("file:resources/images/O.png");
         ImageView imageViewX = new ImageView(X);
         ImageView imageViewO = new ImageView(O);
-        ImageView imageView = null;
+        ImageView imageView;
         GridPane.setMargin(imageViewX, new Insets(25, 25, 25, 25));
         GridPane.setMargin(imageViewO, new Insets(25, 25, 25, 25));
         if (isXturn) isXturn = false;
@@ -324,97 +327,107 @@ public class MainController {
             case "b1":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
+                playGrid.getChildren().add(imageView);
                 break;
             case "b2":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
                 GridPane.setColumnIndex(imageView, 1);
+                playGrid.getChildren().add(imageView);
                 break;
             case "b3":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
                 GridPane.setColumnIndex(imageView, 2);
+                playGrid.getChildren().add(imageView);
                 break;
             case "b4":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
                 GridPane.setRowIndex(imageView, 1);
+                playGrid.getChildren().add(imageView);
                 break;
             case "b5":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
                 GridPane.setRowIndex(imageView, 1);
                 GridPane.setColumnIndex(imageView, 1);
+                playGrid.getChildren().add(imageView);
                 break;
             case "b6":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
                 GridPane.setRowIndex(imageView, 1);
                 GridPane.setColumnIndex(imageView, 2);
+                playGrid.getChildren().add(imageView);
                 break;
             case "b7":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
                 GridPane.setRowIndex(imageView, 2);
+                playGrid.getChildren().add(imageView);
                 break;
             case "b8":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
                 GridPane.setRowIndex(imageView, 2);
                 GridPane.setColumnIndex(imageView, 1);
+                playGrid.getChildren().add(imageView);
                 break;
             case "b9":
                 if (isXturn) imageView = imageViewX;
                 else imageView = imageViewO;
                 GridPane.setRowIndex(imageView, 2);
                 GridPane.setColumnIndex(imageView, 2);
+                playGrid.getChildren().add(imageView);
                 break;
         }
-        FadeTransition fade = new FadeTransition();
-        fade.setDuration(Duration.millis(500));
-        fade.setFromValue(0);
-        fade.setToValue(10);
-        fade.setNode(imageView);
-        playGrid.getChildren().add(imageView);
-        fade.play();
     }
 
     Image animImage = new Image("file:resources/images/Enorme.jpg");
     @FXML
-    ImageView myImage;
+    ImageView imageTitleScreen;
 
-    /* public void initialize() {
-        myImage.setImage(animImage);
-        myImage.toBack();
+    public void goJamy(){
+        ImageView test = new ImageView(animImage);
+        test.setScaleX(0.1);
+        test.setScaleY(0.1);
+        test.setX(0);
+        test.setY(0);
+        mainPane.getChildren().add(test);
+
+        double randOpacity = 0.1 + Math.random() * (0.9 - 0.1);
+        double randSpeedMove = (int) (Math.random() * (8000 - 4000)) + 4000;
+        double randSize =  0.8 + Math.random() * (1.5 - 0.8);
+        imageTitleScreen.toBack();
+        imageTitleScreen.setOpacity(randOpacity);
+        imageTitleScreen.setScaleX(2);
+        imageTitleScreen.setScaleY(2);
+        imageTitleScreen.setImage(animImage);
+
         // translate
         TranslateTransition translate = new TranslateTransition();
         translate.setByX(-700);
         translate.setByY(-700);
-        translate.setDuration(Duration.millis(5000));
-        translate.setCycleCount(TranslateTransition.INDEFINITE);
-        translate.setAutoReverse(true);
-        translate.setNode(myImage);
+        translate.setDuration(Duration.millis(randSpeedMove));
+        translate.setCycleCount(1);
+        translate.setNode(imageTitleScreen);
         translate.play();
 
         // rotate
         RotateTransition rotate = new RotateTransition();
-        rotate.setNode(myImage);
-        rotate.setDuration(Duration.millis(3000));
+        rotate.setNode(imageTitleScreen);
+        rotate.setDuration(Duration.millis(10000));
         rotate.setCycleCount(TranslateTransition.INDEFINITE);
         rotate.setInterpolator(Interpolator.LINEAR);
         rotate.setByAngle(360);
         rotate.setAxis(Rotate.Z_AXIS);
         rotate.play();
+    }
 
-        // scale
-        ScaleTransition scale = new ScaleTransition();
-        scale.setNode(myImage);
-        scale.setDuration(Duration.millis(10000));
-        scale.setCycleCount(TranslateTransition.INDEFINITE);
-        scale.setInterpolator(Interpolator.LINEAR);
-        scale.setByX(1.5);
-        scale.setByY(1.5);
-        scale.setAutoReverse(true);
-        scale.play();
-    } */
+    public void initialize() {
+        if (singlePlayerButton != null){
+            goJamy();
+        }
+    }
 }
