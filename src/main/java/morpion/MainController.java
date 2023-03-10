@@ -5,6 +5,7 @@ import ai.Coup;
 import ai.MultiLayerPerceptron;
 import ai.SigmoidalTransferFunction;
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,6 +23,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 import java.io.File;
@@ -42,6 +45,7 @@ public class MainController {
     static boolean isMulti = false;
     String username1 = "Quoi";
     String username2 = "Feur";
+    private Timeline delayBackground;
 
     @FXML
     Label textError;
@@ -133,6 +137,8 @@ public class MainController {
 
     @FXML
     void onSinglePlayerButtonClick(ActionEvent event) throws IOException {
+        delayBackground.stop();
+        System.out.println("test");
         root = FXMLLoader.load(getClass().getResource("startSoloGame.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -143,6 +149,7 @@ public class MainController {
 
     @FXML
     void onMultiPlayerButtonClick(ActionEvent event) throws IOException {
+        delayBackground.stop();
         root = FXMLLoader.load(getClass().getResource("startMultiGame.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -383,34 +390,36 @@ public class MainController {
         playGrid.getChildren().add(imageView);
     }
 
-    Image animImage = new Image("file:resources/images/Enorme.jpg");
-    @FXML
-    ImageView imageTitleScreen;
-
     public void goJamy(){
-        ImageView test = new ImageView(animImage);
-        test.setScaleX(0.1);
-        test.setScaleY(0.1);
-        test.setX(0);
-        test.setY(0);
-        mainPane.getChildren().add(test);
+        Image animImage = new Image("file:resources/images/Enorme.jpg");
+
+        ImageView imageTitleScreen = new ImageView(animImage);
 
         double randOpacity = 0.1 + Math.random() * (0.9 - 0.1);
         double randSpeedMove = (int) (Math.random() * (8000 - 4000)) + 4000;
-        double randSize =  0.8 + Math.random() * (1.5 - 0.8);
-        imageTitleScreen.toBack();
+        double randSize =  0.05 + Math.random() * (0.5 - 0.05);
+        double randPos = (int) (Math.random() * (635 - 0)) + 0;
+        double imageWidth = imageTitleScreen.getBoundsInLocal().getWidth();
+        double imageHeight = imageTitleScreen.getBoundsInLocal().getHeight();
+
+        imageTitleScreen.setTranslateX(-imageWidth / 2 + randPos);
+        imageTitleScreen.setTranslateY(-imageHeight / 2 - 100);
         imageTitleScreen.setOpacity(randOpacity);
-        imageTitleScreen.setScaleX(2);
-        imageTitleScreen.setScaleY(2);
-        imageTitleScreen.setImage(animImage);
+        imageTitleScreen.setScaleX(randSize);
+        imageTitleScreen.setScaleY(randSize);
+        mainPane.getChildren().add(imageTitleScreen);
+        imageTitleScreen.toBack();
+
 
         // translate
         TranslateTransition translate = new TranslateTransition();
-        translate.setByX(-700);
-        translate.setByY(-700);
+        translate.setByY(900);
         translate.setDuration(Duration.millis(randSpeedMove));
         translate.setCycleCount(1);
         translate.setNode(imageTitleScreen);
+        translate.setOnFinished(event -> {
+            mainPane.getChildren().remove(imageTitleScreen);
+        });
         translate.play();
 
         // rotate
@@ -424,9 +433,24 @@ public class MainController {
         rotate.play();
     }
 
-    public void initialize() {
-        if (singlePlayerButton != null){
-            goJamy();
+    public class renderBackground extends TimerTask {
+        public void run() {
+            Platform.runLater(() -> {
+                goJamy();
+            });
         }
     }
+
+    public void initialize() {
+        if (singlePlayerButton != null){
+            delayBackground = new Timeline();
+            delayBackground.setCycleCount(Timeline.INDEFINITE);
+            delayBackground.getKeyFrames().add(new KeyFrame(Duration.millis(1000), event -> {
+                goJamy();
+            }));
+            delayBackground.play();
+        }
+
+    }
+
 }

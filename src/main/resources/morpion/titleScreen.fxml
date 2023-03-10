@@ -74,9 +74,4 @@
          </LinearGradient>
       </textFill>
    </Label>
-   <ImageView fx:id="imageTitleScreen" fitHeight="150.0" fitWidth="200.0" layoutX="600.0" layoutY="600.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../../../../resources/images/Enorme.jpg" />
-      </image>
-   </ImageView>
 </Pane>
