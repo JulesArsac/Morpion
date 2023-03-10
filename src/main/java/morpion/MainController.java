@@ -8,10 +8,14 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -20,6 +24,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import static ai.Test.loadCoupsFromFile;
+import static ai.Test.play;
 
 public class MainController {
 
@@ -51,6 +56,27 @@ public class MainController {
 
     @FXML
     RadioButton hardRadio;
+
+    @FXML
+    Button b1;
+    @FXML
+    Button b2;
+    @FXML
+    Button b3;
+    @FXML
+    Button b4;
+    @FXML
+    Button b5;
+    @FXML
+    Button b6;
+    @FXML
+    Button b7;
+    @FXML
+    Button b8;
+    @FXML
+    Button b9;
+    @FXML
+    GridPane playGrid;
 
     @FXML
     void openDifficultySettings() throws IOException {
@@ -218,6 +244,55 @@ public class MainController {
             System.out.println("Test.test()");
             e.printStackTrace();
             System.exit(-1);
+        }
+    }
+
+    public void getPlay(ActionEvent actionEvent) {
+        Button clickedButton = (Button) actionEvent.getSource();
+        String bId = clickedButton.getId();
+        Image X = new Image("file:resources/images/X.png");
+        ImageView imageView = new ImageView(X);
+        GridPane.setMargin(imageView, new Insets(25, 25, 25, 25));
+        switch (bId) {
+            case "b1":
+                playGrid.getChildren().add(imageView);
+                break;
+            case "b2":
+                GridPane.setColumnIndex(imageView, 1);
+                playGrid.getChildren().add(imageView);
+                break;
+            case "b3":
+                GridPane.setColumnIndex(imageView, 2);
+                playGrid.getChildren().add(imageView);
+                break;
+            case "b4":
+                GridPane.setRowIndex(imageView, 1);
+                playGrid.getChildren().add(imageView);
+                break;
+            case "b5":
+                GridPane.setRowIndex(imageView, 1);
+                GridPane.setColumnIndex(imageView, 1);
+                playGrid.getChildren().add(imageView);
+                break;
+            case "b6":
+                GridPane.setRowIndex(imageView, 1);
+                GridPane.setColumnIndex(imageView, 2);
+                playGrid.getChildren().add(imageView);
+                break;
+            case "b7":
+                GridPane.setRowIndex(imageView, 2);
+                playGrid.getChildren().add(imageView);
+                break;
+            case "b8":
+                GridPane.setRowIndex(imageView, 2);
+                GridPane.setColumnIndex(imageView, 1);
+                playGrid.getChildren().add(imageView);
+                break;
+            case "b9":
+                GridPane.setRowIndex(imageView, 2);
+                GridPane.setColumnIndex(imageView, 2);
+                playGrid.getChildren().add(imageView);
+                break;
         }
     }
 }
