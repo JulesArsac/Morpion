@@ -6,7 +6,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="80.0" prefHeight="50.0" prefWidth="400.0" text="TicTacToe" textAlignment="CENTER">
       <font>
          <Font name="Bookshelf Symbol 7" size="72.0" />
@@ -43,7 +43,7 @@
       <font>
          <Font size="20.0" />
       </font></Button>
-   <Button alignment="CENTER" onAction="#onMultiPlayerButtonClick" contentDisplay="CENTER" layoutX="200.0" layoutY="400.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="200.0" text="Multiplayer" textAlignment="CENTER">
+   <Button alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="400.0" mnemonicParsing="false" onAction="#onMultiPlayerButtonClick" prefHeight="70.0" prefWidth="200.0" text="Multiplayer" textAlignment="CENTER">
       <font>
          <Font size="20.0" />
       </font>
@@ -74,7 +74,7 @@
          </LinearGradient>
       </textFill>
    </Label>
-   <ImageView fx:id="myImage" fitHeight="150.0" fitWidth="200.0" layoutX="450.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true">
+   <ImageView fx:id="imageTitleScreen" fitHeight="150.0" fitWidth="200.0" layoutX="600.0" layoutY="600.0" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@../../../../resources/images/Enorme.jpg" />
       </image>
