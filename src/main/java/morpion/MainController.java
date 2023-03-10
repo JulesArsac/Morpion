@@ -248,6 +248,7 @@ public class MainController {
 
     public void getPlay(ActionEvent actionEvent) {
         Button clickedButton = (Button) actionEvent.getSource();
+        clickedButton.setDisable(true);
         String bId = clickedButton.getId();
         Image X = new Image("file:resources/images/X.png");
         Image O = new Image("file:resources/images/O.png");
