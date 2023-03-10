@@ -40,7 +40,7 @@ public class ModelController {
             GridPane.setRowIndex(button, i);
             GridPane.setRowIndex(label, i);
             GridPane.setMargin(button, new Insets(15));
-            GridPane.setMargin(label, new Insets(00,40 , 15, 0));
+            GridPane.setMargin(label, new Insets(0,40 , 15, 0));
             paneModels.getChildren().add(button);
             paneModels.getChildren().add(label);
         }

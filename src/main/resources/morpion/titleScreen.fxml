@@ -43,7 +43,7 @@
       <font>
          <Font size="20.0" />
       </font></Button>
-   <Button alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="400.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="200.0" text="Multiplayer" textAlignment="CENTER">
+   <Button alignment="CENTER" onAction="#onMultiPlayerButtonClick" contentDisplay="CENTER" layoutX="200.0" layoutY="400.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="200.0" text="Multiplayer" textAlignment="CENTER">
       <font>
          <Font size="20.0" />
       </font>
