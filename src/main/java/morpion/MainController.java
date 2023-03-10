@@ -98,6 +98,19 @@ public class MainController {
     Button buttonValidate;
 
     @FXML
+    Button buttonBackToLobby;
+
+    @FXML
+    void backToLobby(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("startSoloGame.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
     void onClickButtonValidate(ActionEvent event) throws IOException {
         backToMenu.setDisable(true);
         try {
