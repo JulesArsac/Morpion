@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import static ai.Test.loadCoupsFromFile;
-import static ai.Test.play;
 
 public class MainController {
 
@@ -35,6 +34,10 @@ public class MainController {
     private Stage stage;
     private String difficulty = "M";
     boolean isXturn = false;
+    static boolean isMulti = false;
+    String username1 = "Théodule";
+    String username2 = "Feur";
+
     @FXML
     Label textError;
 
@@ -55,6 +58,17 @@ public class MainController {
 
     @FXML
     RadioButton hardRadio;
+
+    @FXML
+    TextField soloname;
+    @FXML
+    TextField textName1;
+    @FXML
+    TextField textName2;
+    @FXML
+    Label labelName1;
+    @FXML
+    Label labelName2;
 
     @FXML
     Button b1;
@@ -120,6 +134,42 @@ public class MainController {
     }
 
     @FXML
+    void onMultiPlayerButtonClick(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("startMultiGame.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    void getPlayMulti(ActionEvent event) throws IOException{
+        labelName1.setVisible(false);
+        labelName2.setVisible(false);
+        if (textName1.getText().isBlank() && textName2.getText().isBlank()){
+            labelName1.setVisible(true);
+            labelName2.setVisible(true);
+        }
+        else if (textName1.getText().isBlank()){
+            labelName1.setVisible(true);
+        }
+        else if (textName2.getText().isBlank()){
+            labelName2.setVisible(true);
+        }
+        else {
+            isMulti=true;
+            root = FXMLLoader.load(getClass().getResource("game.fxml"));
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+        }
+
+    }
+
+    @FXML
     Button buttonValidate;
 
     @FXML
@@ -127,7 +177,13 @@ public class MainController {
 
     @FXML
     void backToLobby(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("startSoloGame.fxml"));
+        if (isMulti) {
+            root = FXMLLoader.load(getClass().getResource("startMultiGame.fxml"));
+        }
+        else {
+            root = FXMLLoader.load(getClass().getResource("startSoloGame.fxml"));
+        }
+
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setResizable(false);
@@ -138,8 +194,8 @@ public class MainController {
     @FXML
     void onClickButtonValidate(ActionEvent event) throws IOException {
         backToMenu.setDisable(true);
+        isMulti=false;
         try {
-
             if (easyRadio.isSelected()) {
                 difficulty = "F";
                 epochs = 1000;
