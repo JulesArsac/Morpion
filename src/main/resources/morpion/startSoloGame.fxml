@@ -2,13 +2,30 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
-    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="80.0" prefHeight="50.0" prefWidth="400.0" text="Difficulty Choice" textAlignment="CENTER">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
+    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="80.0" prefHeight="50.0" prefWidth="400.0" text="User VS AI" textAlignment="CENTER">
         <font>
             <Font name="Bookshelf Symbol 7" size="50.0" />
         </font>
+      <textFill>
+         <LinearGradient endX="1.0" endY="1.0">
+            <stops>
+               <Stop>
+                  <color>
+                     <Color />
+                  </color>
+               </Stop>
+               <Stop offset="1.0">
+                  <color>
+                     <Color green="1.0" blue="0.36666667461395264" />
+                  </color>
+               </Stop>
+            </stops>
+         </LinearGradient>
+      </textFill>
     </Label>
     <MenuBar id="menuBar" layoutY="1.0" prefHeight="26.0" prefWidth="600.0">
         <Menu mnemonicParsing="false" text="Settings">
