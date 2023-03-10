@@ -23,7 +23,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import java.util.Timer;
 import java.util.TimerTask;
 
 
@@ -35,7 +34,6 @@ import static ai.Test.loadCoupsFromFile;
 
 public class MainController {
 
-    double error = 0.0;
     double epochs = 1000000;
     private Parent root;
     private Scene scene;
@@ -206,7 +204,7 @@ public class MainController {
     }
 
     @FXML
-    void onClickButtonValidate(ActionEvent event) throws IOException {
+    void onClickButtonValidate(ActionEvent event) {
         backToMenu.setDisable(true);
         isMulti=false;
         try {
@@ -225,18 +223,17 @@ public class MainController {
 
             int[] layers = new int[configuration.get(difficulty).numberOfhiddenLayers + 2];
             layers[0] = 9;
+
             for (int j = 1; j < configuration.get(difficulty).numberOfhiddenLayers; j++) {
                 layers[j] = configuration.get(difficulty).hiddenLayerSize;
             }
-            layers[configuration.get(difficulty).numberOfhiddenLayers + 1] = 9;
 
+            layers[configuration.get(difficulty).numberOfhiddenLayers + 1] = 9;
             String modelpath = "src/main/resources/models/model_" + configuration.get(difficulty).numberOfhiddenLayers + "_" + configuration.get(difficulty).learningRate + "_" + configuration.get(difficulty).hiddenLayerSize;
 
             File model = new File(modelpath);
             if (model.exists() && !model.isDirectory()) {
-
-                MultiLayerPerceptron net = MultiLayerPerceptron.load(modelpath);
-
+                // MultiLayerPerceptron net = MultiLayerPerceptron.load(modelpath);
                 root = FXMLLoader.load(getClass().getResource("game.fxml"));
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
@@ -248,9 +245,9 @@ public class MainController {
                 progressBar.setVisible(true);
                 textError.setVisible(true);
                 buttonValidate.setDisable(true);
-                Task<Integer> trainingTask = new Task<Integer>() {
+                Task<Integer> trainingTask = new Task<>() {
                     @Override
-                    protected Integer call() throws Exception {
+                    protected Integer call() {
                         System.out.println();
                         System.out.println("START TRAINING ...");
                         System.out.println();
@@ -261,8 +258,8 @@ public class MainController {
                         System.out.println("---");
                         System.out.println("Load data ...");
                         HashMap<Integer, Coup> mapTrain = loadCoupsFromFile("./resources/train_dev_test/train.txt");
-                        HashMap<Integer, Coup> mapDev = loadCoupsFromFile("./resources/train_dev_test/dev.txt");
-                        HashMap<Integer, Coup> mapTest = loadCoupsFromFile("./resources/train_dev_test/test.txt");
+                        // HashMap<Integer, Coup> mapDev = loadCoupsFromFile("./resources/train_dev_test/dev.txt");
+                        // HashMap<Integer, Coup> mapTest = loadCoupsFromFile("./resources/train_dev_test/test.txt");
                         System.out.println("---");
                         //TRAINING ...
                         for (int i = 0; i < epochs; i++) {
@@ -327,8 +324,7 @@ public class MainController {
         ImageView imageView = null;
         GridPane.setMargin(imageViewX, new Insets(25, 25, 25, 25));
         GridPane.setMargin(imageViewO, new Insets(25, 25, 25, 25));
-        if (isXturn) isXturn = false;
-        else isXturn = true;
+        isXturn = !isXturn;
         switch (bId) {
             case "b1":
                 if (isXturn) imageView = imageViewX;
@@ -417,9 +413,7 @@ public class MainController {
         translate.setDuration(Duration.millis(randSpeedMove));
         translate.setCycleCount(1);
         translate.setNode(imageTitleScreen);
-        translate.setOnFinished(event -> {
-            mainPane.getChildren().remove(imageTitleScreen);
-        });
+        translate.setOnFinished(event -> mainPane.getChildren().remove(imageTitleScreen));
         translate.play();
 
         RotateTransition rotate = new RotateTransition();
@@ -434,9 +428,7 @@ public class MainController {
 
     public class renderBackground extends TimerTask {
         public void run() {
-            Platform.runLater(() -> {
-                goJamy();
-            });
+            Platform.runLater(MainController.this::goJamy);
         }
     }
 
@@ -444,9 +436,7 @@ public class MainController {
         if (singlePlayerButton != null){
             delayBackground = new Timeline();
             delayBackground.setCycleCount(Timeline.INDEFINITE);
-            delayBackground.getKeyFrames().add(new KeyFrame(Duration.millis(1000), event -> {
-                goJamy();
-            }));
+            delayBackground.getKeyFrames().add(new KeyFrame(Duration.millis(1000), event -> goJamy()));
             delayBackground.play();
         }
     }
