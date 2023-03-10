@@ -23,6 +23,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.util.Arrays;
 import java.util.TimerTask;
 
 
@@ -31,6 +33,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import static ai.Test.loadCoupsFromFile;
+import static ai.Test.play;
 
 public class MainController {
 
@@ -44,6 +47,7 @@ public class MainController {
     String username1 = "Quoi";
     String username2 = "Feur";
     private Timeline delayBackground;
+    private double[] gameArray = new double[9];
 
     @FXML
     Label textError;
@@ -233,7 +237,7 @@ public class MainController {
 
             File model = new File(modelpath);
             if (model.exists() && !model.isDirectory()) {
-                // MultiLayerPerceptron net = MultiLayerPerceptron.load(modelpath);
+                MultiLayerPerceptron net = MultiLayerPerceptron.load(modelpath);
                 root = FXMLLoader.load(getClass().getResource("game.fxml"));
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
@@ -327,54 +331,117 @@ public class MainController {
         isXturn = !isXturn;
         switch (bId) {
             case "b1":
-                if (isXturn) imageView = imageViewX;
-                else imageView = imageViewO;
+                if (isXturn){
+                    imageView = imageViewX;
+                    gameArray[0]=-1;
+                }
+                else {
+                    imageView = imageViewO;
+                    gameArray[0]=1;
+                }
 
                 break;
             case "b2":
-                if (isXturn) imageView = imageViewX;
-                else imageView = imageViewO;
+                if (isXturn){
+                    imageView = imageViewX;
+                    gameArray[1]=-1;
+                }
+                else {
+                    imageView = imageViewO;
+                    gameArray[1]=1;
+                }
                 GridPane.setColumnIndex(imageView, 1);
                 break;
             case "b3":
-                if (isXturn) imageView = imageViewX;
-                else imageView = imageViewO;
+                if (isXturn){
+                    imageView = imageViewX;
+                    gameArray[2]=-1;
+                }
+                else {
+                    imageView = imageViewO;
+                    gameArray[2]=1;
+                }
                 GridPane.setColumnIndex(imageView, 2);
                 break;
             case "b4":
-                if (isXturn) imageView = imageViewX;
-                else imageView = imageViewO;
+                if (isXturn){
+                    imageView = imageViewX;
+                    gameArray[3]=-1;
+                }
+                else {
+                    imageView = imageViewO;
+                    gameArray[3]=1;
+                }
                 GridPane.setRowIndex(imageView, 1);
                 break;
             case "b5":
-                if (isXturn) imageView = imageViewX;
-                else imageView = imageViewO;
+                if (isXturn){
+                    imageView = imageViewX;
+                    gameArray[4]=-1;
+                }
+                else {
+                    imageView = imageViewO;
+                    gameArray[4]=1;
+                }
                 GridPane.setRowIndex(imageView, 1);
                 GridPane.setColumnIndex(imageView, 1);
                 break;
             case "b6":
-                if (isXturn) imageView = imageViewX;
-                else imageView = imageViewO;
+                if (isXturn){
+                    imageView = imageViewX;
+                    gameArray[5]=-1;
+                }
+                else {
+                    imageView = imageViewO;
+                    gameArray[5]=1;
+                }
                 GridPane.setRowIndex(imageView, 1);
                 GridPane.setColumnIndex(imageView, 2);
                 break;
             case "b7":
-                if (isXturn) imageView = imageViewX;
-                else imageView = imageViewO;
+                if (isXturn){
+                    imageView = imageViewX;
+                    gameArray[6]=-1;
+                }
+                else {
+                    imageView = imageViewO;
+                    gameArray[6]=1;
+                }
                 GridPane.setRowIndex(imageView, 2);
                 break;
             case "b8":
-                if (isXturn) imageView = imageViewX;
-                else imageView = imageViewO;
+                if (isXturn){
+                    imageView = imageViewX;
+                    gameArray[7]=-1;
+                }
+                else {
+                    imageView = imageViewO;
+                    gameArray[7]=1;
+                }
                 GridPane.setRowIndex(imageView, 2);
                 GridPane.setColumnIndex(imageView, 1);
                 break;
             case "b9":
-                if (isXturn) imageView = imageViewX;
-                else imageView = imageViewO;
+                if (isXturn){
+                    imageView = imageViewX;
+                    gameArray[8]=-1;
+                }
+                else {
+                    imageView = imageViewO;
+                    gameArray[8]=1;
+                }
                 GridPane.setRowIndex(imageView, 2);
                 GridPane.setColumnIndex(imageView, 2);
                 break;
+        }
+        System.out.println(Arrays.toString(gameArray));
+        double winner = checkWinner(gameArray);
+        if (winner == 1.0) {
+            System.out.println("O has won!");
+        } else if (winner == -1.0) {
+            System.out.println("X has won!");
+        } else {
+            System.out.println("Game in progress!");
         }
         FadeTransition fade = new FadeTransition();
         fade.setDuration(Duration.millis(500));
@@ -384,6 +451,55 @@ public class MainController {
         fade.play();
         playGrid.getChildren().add(imageView);
     }
+
+    public static double checkWinner(double[] board) {
+        for (int i = 0; i < 9; i += 3) {
+            if (board[i] == board[i+1] && board[i+1] == board[i+2]) {
+                if (board[i] == 1.0) {
+                    return 1.0;
+                } else if (board[i] == -1.0) {
+                    return -1.0;
+                }
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            if (board[i] == board[i+3] && board[i+3] == board[i+6]) {
+                if (board[i] == 1.0) {
+                    return 1.0;
+                } else if (board[i] == -1.0) {
+                    return -1.0;
+                }
+            }
+        }
+        if (board[0] == board[4] && board[4] == board[8]) {
+            if (board[0] == 1.0) {
+                return 1.0;
+            } else if (board[0] == -1.0) {
+                return -1.0;
+            }
+        }
+        if (board[2] == board[4] && board[4] == board[6]) {
+            if (board[2] == 1.0) {
+                return 1.0;
+            } else if (board[2] == -1.0) {
+                return -1.0;
+            }
+        }
+
+        return 0.0;
+    }
+
+    @FXML
+    void test(){
+        MultiLayerPerceptron net = MultiLayerPerceptron.load("src/main/resources/models/model_2_0.01_512");
+        double[] board = {0.0, 0.0, 0.0, -1.0, 1.0, 1.0, -1.0, 0.0, 0.0};
+        HashMap<Integer, Coup> mapTest = loadCoupsFromFile("./resources/train_dev_test/test.txt");
+        Coup coup = mapTest.get((int)(Math.round(Math.random() * mapTest.size())));
+        coup.addInBoard(board);
+        System.out.println(Arrays.toString(play(net, coup)));
+        System.out.println(Arrays.toString(coup.out));
+    }
+
 
     public void goJamy(){
         Image animImage = new Image("file:resources/images/Enorme.jpg");
@@ -433,11 +549,16 @@ public class MainController {
     }
 
     public void initialize() {
-        if (singlePlayerButton != null){
+        if (singlePlayerButton != null){ //Si on est dans l'écran titre
             delayBackground = new Timeline();
             delayBackground.setCycleCount(Timeline.INDEFINITE);
             delayBackground.getKeyFrames().add(new KeyFrame(Duration.millis(1000), event -> goJamy()));
             delayBackground.play();
+        }
+        else if (b1 != null) { //Si on est dans le jeu
+            for (int i=0; i<9; i++){
+                gameArray[i]=0;
+            }
         }
     }
 }
