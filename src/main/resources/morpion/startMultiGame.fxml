@@ -2,9 +2,10 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
    <Button fx:id="backToMenu" layoutX="14.0" layoutY="42.0" mnemonicParsing="false" onAction="#backToMenu" text="Back to menu" />
    <MenuBar id="menuBar" layoutY="1.0" prefHeight="26.0" prefWidth="600.0">
       <Menu mnemonicParsing="false" text="Settings">
@@ -16,10 +17,26 @@
    <TextField fx:id="textName2" layoutX="225.0" layoutY="358.0" />
    <Label layoutX="268.0" layoutY="216.0" text="Username 1" />
    <Label layoutX="268.0" layoutY="326.0" text="Username 2" />
-   <Label layoutX="142.0" layoutY="94.0" text="Choose your names">
+   <Label layoutX="160.0" layoutY="94.0" text="User VS User">
       <font>
-         <Font size="36.0" />
+         <Font size="50.0" />
       </font>
+      <textFill>
+         <LinearGradient endX="1.0" endY="1.0">
+            <stops>
+               <Stop>
+                  <color>
+                     <Color />
+                  </color>
+               </Stop>
+               <Stop offset="1.0">
+                  <color>
+                     <Color green="1.0" blue="0.3686274588108063" />
+                  </color>
+               </Stop>
+            </stops>
+         </LinearGradient>
+      </textFill>
    </Label>
    <Button layoutX="277.0" layoutY="439.0" mnemonicParsing="false" onAction="#getPlayMulti" text="Play" />
    <Label fx:id="labelName1" layoutX="247.0" layoutY="276.0" text="Choose a username" textFill="RED" visible="false" />

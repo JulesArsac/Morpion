@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
-    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="80.0" prefHeight="50.0" prefWidth="400.0" text="User VS AI" textAlignment="CENTER">
+    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="94.0" prefHeight="50.0" prefWidth="400.0" text="User VS AI" textAlignment="CENTER">
         <font>
             <Font name="Bookshelf Symbol 7" size="50.0" />
         </font>

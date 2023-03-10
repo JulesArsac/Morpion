@@ -138,7 +138,6 @@ public class MainController {
     @FXML
     void onSinglePlayerButtonClick(ActionEvent event) throws IOException {
         delayBackground.stop();
-        System.out.println("test");
         root = FXMLLoader.load(getClass().getResource("startSoloGame.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
