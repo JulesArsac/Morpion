@@ -4,6 +4,9 @@
 <?import javafx.scene.layout.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
+    <style>
+        -fx-background-color: #dae6f2
+    </style>
    <MenuBar id="menuBar" layoutY="1.0" prefHeight="26.0" prefWidth="600.0">
       <Menu mnemonicParsing="false" text="Settings">
          <MenuItem mnemonicParsing="false" onAction="#openDifficultySettings" text="Difficulty" />

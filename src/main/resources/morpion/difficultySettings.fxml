@@ -4,6 +4,9 @@
 <?import javafx.scene.layout.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.DifficultyController">
+   <style>
+      -fx-background-color: #dae6f2
+   </style>
    <children>
       <TextField fx:id="ndEasy" layoutX="107.0" layoutY="92.0" prefHeight="25.0" prefWidth="79.0" />
       <TextField fx:id="learnEasy" layoutX="199.0" layoutY="92.0" prefHeight="25.0" prefWidth="79.0" />

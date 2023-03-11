@@ -19,9 +19,7 @@ public class ModelController {
     public void initialize(){
         File modelsFolder = new File("src/main/resources/models/");
         File[] listOfmodels = modelsFolder.listFiles();
-
         GridPane paneModels = new GridPane();
-
         paneModels.setPadding(new Insets(10));
         for (int i=0; i < listOfmodels.length; i++){
             Label label = new Label(listOfmodels[i].getName());
@@ -41,6 +39,7 @@ public class ModelController {
             GridPane.setRowIndex(label, i);
             GridPane.setMargin(button, new Insets(15));
             GridPane.setMargin(label, new Insets(0,40 , 15, 0));
+            paneModels.setStyle("-fx-background-color: #dae6f2");
             paneModels.getChildren().add(button);
             paneModels.getChildren().add(label);
         }

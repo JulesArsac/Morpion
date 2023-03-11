@@ -6,8 +6,11 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
+   <style>
+      -fx-background-color: #dae6f2
+   </style>
    <Button fx:id="backToMenu" layoutX="14.0" layoutY="42.0" mnemonicParsing="false" onAction="#backToMenu" text="Back to menu" />
-   <MenuBar id="menuBar" layoutY="1.0" prefHeight="26.0" prefWidth="600.0">
+   <MenuBar id="menuBar" prefHeight="26.0" prefWidth="600.0">
       <Menu mnemonicParsing="false" text="Settings">
          <MenuItem mnemonicParsing="false" onAction="#openDifficultySettings" text="Difficulty" />
          <MenuItem mnemonicParsing="false" onAction="#openModelSettings" text="Models" />
@@ -29,9 +32,14 @@
                      <Color />
                   </color>
                </Stop>
+               <Stop offset="0.7357910906298004">
+                  <color>
+                     <Color red="0.43921568989753723" green="0.5803921818733215" blue="0.800000011920929" />
+                  </color>
+               </Stop>
                <Stop offset="1.0">
                   <color>
-                     <Color green="1.0" blue="0.3686274588108063" />
+                     <Color red="0.43921568989753723" green="0.5803921818733215" blue="0.800000011920929" />
                   </color>
                </Stop>
             </stops>

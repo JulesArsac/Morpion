@@ -6,6 +6,9 @@
 <?import javafx.scene.text.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
+    <style>
+        -fx-background-color: #dae6f2
+    </style>
     <Label alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="94.0" prefHeight="50.0" prefWidth="400.0" text="User VS AI" textAlignment="CENTER">
         <font>
             <Font name="Bookshelf Symbol 7" size="50.0" />
@@ -18,16 +21,21 @@
                      <Color />
                   </color>
                </Stop>
+               <Stop offset="0.7142857142857143">
+                  <color>
+                     <Color red="0.43921568989753723" green="0.5803921818733215" blue="0.800000011920929" />
+                  </color>
+               </Stop>
                <Stop offset="1.0">
                   <color>
-                     <Color green="1.0" blue="0.36666667461395264" />
+                     <Color red="0.43921568989753723" green="0.5803921818733215" blue="0.800000011920929" />
                   </color>
                </Stop>
             </stops>
          </LinearGradient>
       </textFill>
     </Label>
-    <MenuBar id="menuBar" layoutY="1.0" prefHeight="26.0" prefWidth="600.0">
+    <MenuBar id="menuBar" prefHeight="26.0" prefWidth="600.0">
         <Menu mnemonicParsing="false" text="Settings">
             <MenuItem mnemonicParsing="false" onAction="#openDifficultySettings" text="Difficulty" />
             <MenuItem mnemonicParsing="false" onAction="#openModelSettings" text="Models" />

@@ -544,7 +544,7 @@ public class MainController {
         ImageView imageTitleScreen = new ImageView(animImage);
 
         double randOpacity = 0.1 + Math.random() * (0.9 - 0.1);
-        double randSpeedMove = (int) (Math.random() * (8000 - 4000)) + 4000;
+        double randSpeedMove = (int) (Math.random() * (8000 - 4000)) + 10000;
         double randSize =  0.7 + Math.random() * (1.7 - 0.7);
         double randPos = (int) (Math.random() * 635);
         double randRot = Math.random() * 360;
@@ -586,8 +586,6 @@ public class MainController {
         }
     }
 
-
-
     public void initialize() {
         if (singlePlayerButton != null){ //Si on est dans l'écran titre
             Image backgroundTopimg = new Image("file:resources/images/backgroundTop.png");
@@ -600,7 +598,7 @@ public class MainController {
             backgroundBottom.toBack();
             delayBackground = new Timeline();
             delayBackground.setCycleCount(Timeline.INDEFINITE);
-            delayBackground.getKeyFrames().add(new KeyFrame(Duration.millis(400), event -> goJamy()));
+            delayBackground.getKeyFrames().add(new KeyFrame(Duration.millis(700), event -> goJamy()));
             delayBackground.play();
         }
         else if (b1 != null) { //Si on est dans le jeu
