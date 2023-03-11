@@ -48,6 +48,8 @@ public class MainController {
     String username2 = "Feur";
     private Timeline delayBackground;
     private double[] gameArray = new double[9];
+    ImageView backgroundTop;
+    ImageView backgroundBottom;
 
     @FXML
     Label textError;
@@ -214,7 +216,7 @@ public class MainController {
         try {
             if (easyRadio.isSelected()) {
                 difficulty = "F";
-                epochs = 1000;
+                epochs = 10000000;
             } else if (mediumRadio.isSelected()) {
                 difficulty = "M";
                 epochs = 10000;
@@ -319,7 +321,7 @@ public class MainController {
 
     public void getPlay(ActionEvent actionEvent) {
         Button clickedButton = (Button) actionEvent.getSource();
-        clickedButton.setDisable(true);
+        //clickedButton.setDisable(true);
         String bId = clickedButton.getId();
         Image X = new Image("file:resources/images/X.png");
         Image O = new Image("file:resources/images/O.png");
@@ -329,6 +331,37 @@ public class MainController {
         GridPane.setMargin(imageViewX, new Insets(25, 25, 25, 25));
         GridPane.setMargin(imageViewO, new Insets(25, 25, 25, 25));
         isXturn = !isXturn;
+        if (!isXturn){
+            MultiLayerPerceptron net = MultiLayerPerceptron.load("src/main/resources/models/model_2_0.01_64");
+            HashMap<Integer, Coup> mapTest = loadCoupsFromFile("./resources/train_dev_test/test.txt");
+            Coup coup = mapTest.get((int)(Math.round(Math.random() * mapTest.size())));
+            coup.addInBoard(gameArray);
+            double min=100;
+            int index = 0;
+            double[] probaCoups = play(net, coup);
+            for (int i=0; i < probaCoups.length; i++){
+                if (probaCoups[i] < min){
+                    min = probaCoups[i];
+                    index = i;
+                }
+            }
+            gameArray[index]=1;
+            if (index>3 && index <=6){
+                imageView = imageViewO;
+                GridPane.setRowIndex(imageView, 1);
+                GridPane.setColumnIndex(imageView, index%3);
+            }
+            else if (index > 6) {
+                imageView = imageViewO;
+                GridPane.setRowIndex(imageView, 2);
+                GridPane.setColumnIndex(imageView, index%3);
+            }
+            else {
+                imageView = imageViewO;
+                GridPane.setRowIndex(imageView, 0);
+                GridPane.setColumnIndex(imageView, index%3);
+            }
+        }
         switch (bId) {
             case "b1":
                 if (isXturn){
@@ -491,24 +524,28 @@ public class MainController {
 
     @FXML
     void test(){
-        MultiLayerPerceptron net = MultiLayerPerceptron.load("src/main/resources/models/model_2_0.01_512");
-        double[] board = {0.0, 0.0, 0.0, -1.0, 1.0, 1.0, -1.0, 0.0, 0.0};
-        HashMap<Integer, Coup> mapTest = loadCoupsFromFile("./resources/train_dev_test/test.txt");
-        Coup coup = mapTest.get((int)(Math.round(Math.random() * mapTest.size())));
-        coup.addInBoard(board);
-        System.out.println(Arrays.toString(play(net, coup)));
-        System.out.println(Arrays.toString(coup.out));
+        MultiLayerPerceptron net = MultiLayerPerceptron.load("src/main/resources/models/model_2_0.01_64");
+        double[] board = {0, 0, 0, -1, 1, 1, -1, 0, 0};
+        double[] output = net.forwardPropagation(board);
+        System.out.println(Arrays.toString(output));
     }
 
 
     public void goJamy(){
-        Image animImage = new Image("file:resources/images/Enorme.jpg");
 
+        Image animImage;
+        int img = (int) (Math.random() * (3 - 1)) + 1;
+        if (img == 1){
+            animImage = new Image("file:resources/images/X.png");
+        }
+        else {
+            animImage = new Image("file:resources/images/O.png");
+        }
         ImageView imageTitleScreen = new ImageView(animImage);
 
         double randOpacity = 0.1 + Math.random() * (0.9 - 0.1);
         double randSpeedMove = (int) (Math.random() * (8000 - 4000)) + 4000;
-        double randSize =  0.05 + Math.random() * (0.5 - 0.05);
+        double randSize =  0.7 + Math.random() * (1.7 - 0.7);
         double randPos = (int) (Math.random() * 635);
         double randRot = Math.random() * 360;
 
@@ -523,6 +560,7 @@ public class MainController {
         imageTitleScreen.setScaleY(randSize);
         mainPane.getChildren().add(imageTitleScreen);
         imageTitleScreen.toBack();
+        backgroundTop.toBack();
 
         TranslateTransition translate = new TranslateTransition();
         translate.setByY(900);
@@ -548,11 +586,21 @@ public class MainController {
         }
     }
 
+
+
     public void initialize() {
         if (singlePlayerButton != null){ //Si on est dans l'écran titre
+            Image backgroundTopimg = new Image("file:resources/images/backgroundTop.png");
+            Image backgroundBottomimg = new Image("file:resources/images/backgroundBottom.png");
+            backgroundTop = new ImageView(backgroundTopimg);
+            backgroundBottom = new ImageView(backgroundBottomimg);
+            mainPane.getChildren().add(backgroundTop);
+            mainPane.getChildren().add(backgroundBottom);
+            backgroundTop.toBack();
+            backgroundBottom.toBack();
             delayBackground = new Timeline();
             delayBackground.setCycleCount(Timeline.INDEFINITE);
-            delayBackground.getKeyFrames().add(new KeyFrame(Duration.millis(1000), event -> goJamy()));
+            delayBackground.getKeyFrames().add(new KeyFrame(Duration.millis(400), event -> goJamy()));
             delayBackground.play();
         }
         else if (b1 != null) { //Si on est dans le jeu

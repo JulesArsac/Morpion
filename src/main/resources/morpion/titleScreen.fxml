@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 
 <Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
-   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="80.0" prefHeight="50.0" prefWidth="400.0" text="TicTacToe" textAlignment="CENTER">
+   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="80.0" prefHeight="50.0" prefWidth="400.0" text="TicTacToe" textAlignment="CENTER" translateZ="1.0">
       <font>
          <Font name="Bookshelf Symbol 7" size="72.0" />
       </font>
@@ -38,16 +38,25 @@
             <MenuItem mnemonicParsing="false" onAction="#openModelSettings" text="Models" />
         </Menu>
     </MenuBar>
-   <Button fx:id="singlePlayerButton" alignment="CENTER" contentDisplay="CENTER" layoutX="201.0" layoutY="274.0" mnemonicParsing="false" onAction="#onSinglePlayerButtonClick" prefHeight="70.0" prefWidth="200.0" text="Single Player" textAlignment="CENTER">
-      <font>
-         <Font size="20.0" />
-      </font></Button>
-   <Button alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="400.0" mnemonicParsing="false" onAction="#onMultiPlayerButtonClick" prefHeight="70.0" prefWidth="200.0" text="Multiplayer" textAlignment="CENTER">
+   <Button fx:id="singlePlayerButton" alignment="CENTER" contentDisplay="CENTER" layoutX="65.0" layoutY="222.0" mnemonicParsing="false" onAction="#onSinglePlayerButtonClick" prefHeight="70.0" prefWidth="200.0" text="Single Player" textAlignment="CENTER" translateZ="1.0">
       <font>
          <Font size="20.0" />
       </font>
+      <style>
+         -fx-background-color: transparent;
+         -fx-border-color: black;
+      </style>
    </Button>
-   <Label layoutX="265.0" layoutY="150.0" text="The game of champions">
+   <Button alignment="CENTER" contentDisplay="CENTER" layoutX="334.0" layoutY="222.0" mnemonicParsing="false" onAction="#onMultiPlayerButtonClick" prefHeight="70.0" prefWidth="200.0" text="Multiplayer" textAlignment="CENTER" translateZ="1.0">
+      <font>
+         <Font size="20.0" />
+      </font>
+      <style>
+         -fx-background-color: transparent;
+         -fx-border-color: black;
+      </style>
+   </Button>
+   <Label layoutX="265.0" layoutY="150.0" text="The game of champions" translateZ="1.0">
       <font>
          <Font name="Lucida Calligraphy Italic" size="18.0" />
       </font>
@@ -73,5 +82,5 @@
          </LinearGradient>
       </textFill>
    </Label>
-   <Button onAction="#test" layoutX="61.0" layoutY="249.0" mnemonicParsing="false" text="test" />
+   <Button layoutX="282.0" layoutY="245.0" mnemonicParsing="false" onAction="#test" text="test" translateZ="1.0" />
 </Pane>

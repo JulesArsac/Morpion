@@ -34,4 +34,5 @@
       </children>
    </GridPane>
    <Button fx:id="buttonBackToLobby" layoutX="14.0" layoutY="42.0" mnemonicParsing="false" onAction="#backToLobby" text="Back to lobby" />
+   <Button fx:id="b10" onAction="#getPlay" layoutX="32.0" layoutY="263.0" mnemonicParsing="false" text="IA" />
 </Pane>
