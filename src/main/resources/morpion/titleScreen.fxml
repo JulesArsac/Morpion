@@ -5,7 +5,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="80.0" prefHeight="50.0" prefWidth="400.0" text="TicTacToe" textAlignment="CENTER" translateZ="1.0">
       <font>
          <Font name="Bookshelf Symbol 7" size="72.0" />
@@ -80,5 +80,4 @@
          </LinearGradient>
       </textFill>
    </Label>
-   <Button layoutX="282.0" layoutY="245.0" mnemonicParsing="false" onAction="#test" text="test" translateZ="1.0" />
 </Pane>

@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.MainController">
     <style>
         -fx-background-color: #dae6f2
     </style>
@@ -37,5 +37,4 @@
       </children>
    </GridPane>
    <Button fx:id="buttonBackToLobby" layoutX="14.0" layoutY="42.0" mnemonicParsing="false" onAction="#backToLobby" text="Back to lobby" />
-   <Button fx:id="b10" onAction="#getPlay" layoutX="32.0" layoutY="263.0" mnemonicParsing="false" text="IA" />
 </Pane>

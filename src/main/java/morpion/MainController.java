@@ -31,25 +31,28 @@ import java.util.TimerTask;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import static ai.Test.loadCoupsFromFile;
-import static ai.Test.play;
 
 public class MainController {
 
-    double epochs = 1000000;
+    private double epochs = 1000000;
     private Parent root;
     private Scene scene;
     private Stage stage;
     private String difficulty = "M";
-    boolean isXturn = false;
-    static boolean isMulti = false;
-    String username1 = "Quoi";
-    String username2 = "Feur";
+    private int player = -1;
+    private static boolean isMulti = false;
+    private String username1 = "Quoi";
+    private String username2 = "Feur";
     private Timeline delayBackground;
     private double[] gameArray = new double[9];
-    ImageView backgroundTop;
-    ImageView backgroundBottom;
+    private ImageView backgroundTop;
+    private ImageView backgroundBottom;
+    private static MultiLayerPerceptron net;
+    private int iaPlayer;
+
 
     @FXML
     Label textError;
@@ -219,7 +222,7 @@ public class MainController {
                 epochs = 10000000;
             } else if (mediumRadio.isSelected()) {
                 difficulty = "M";
-                epochs = 10000;
+                epochs = 1000000;
             } else {
                 difficulty = "D";
                 epochs = 1000000;
@@ -239,13 +242,14 @@ public class MainController {
 
             File model = new File(modelpath);
             if (model.exists() && !model.isDirectory()) {
-                MultiLayerPerceptron net = MultiLayerPerceptron.load(modelpath);
+                net = MultiLayerPerceptron.load(modelpath);
                 root = FXMLLoader.load(getClass().getResource("game.fxml"));
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 stage.setResizable(false);
                 stage.setScene(scene);
                 stage.show();
+                initialize();
             }
             else {
                 progressBar.setVisible(true);
@@ -259,7 +263,7 @@ public class MainController {
                         System.out.println();
 
                         double error = 0.0;
-                        MultiLayerPerceptron net = new MultiLayerPerceptron(layers, configuration.get(difficulty).learningRate, new SigmoidalTransferFunction());
+                        net = new MultiLayerPerceptron(layers, configuration.get(difficulty).learningRate, new SigmoidalTransferFunction());
 
                         System.out.println("---");
                         System.out.println("Load data ...");
@@ -319,153 +323,131 @@ public class MainController {
         }
     }
 
-    public void getPlay(ActionEvent actionEvent) {
+    public void getPlay(ActionEvent actionEvent) throws InterruptedException {
         Button clickedButton = (Button) actionEvent.getSource();
         //clickedButton.setDisable(true);
         String bId = clickedButton.getId();
+        game(bId);
+    }
+
+
+    public void game(String buttonId) throws InterruptedException {
         Image X = new Image("file:resources/images/X.png");
         Image O = new Image("file:resources/images/O.png");
-        ImageView imageViewX = new ImageView(X);
-        ImageView imageViewO = new ImageView(O);
-        ImageView imageView = null;
-        GridPane.setMargin(imageViewX, new Insets(25, 25, 25, 25));
-        GridPane.setMargin(imageViewO, new Insets(25, 25, 25, 25));
-        isXturn = !isXturn;
-        if (!isXturn){
-            MultiLayerPerceptron net = MultiLayerPerceptron.load("src/main/resources/models/model_2_0.01_64");
-            HashMap<Integer, Coup> mapTest = loadCoupsFromFile("./resources/train_dev_test/test.txt");
-            Coup coup = mapTest.get((int)(Math.round(Math.random() * mapTest.size())));
-            coup.addInBoard(gameArray);
-            double min=100;
-            int index = 0;
-            double[] probaCoups = play(net, coup);
-            for (int i=0; i < probaCoups.length; i++){
-                if (probaCoups[i] < min){
-                    min = probaCoups[i];
-                    index = i;
-                }
-            }
-            gameArray[index]=1;
-            if (index>3 && index <=6){
-                imageView = imageViewO;
-                GridPane.setRowIndex(imageView, 1);
-                GridPane.setColumnIndex(imageView, index%3);
-            }
-            else if (index > 6) {
-                imageView = imageViewO;
-                GridPane.setRowIndex(imageView, 2);
-                GridPane.setColumnIndex(imageView, index%3);
-            }
-            else {
-                imageView = imageViewO;
-                GridPane.setRowIndex(imageView, 0);
-                GridPane.setColumnIndex(imageView, index%3);
-            }
+        ImageView imageView;
+        if (player == -1){
+            imageView = new ImageView(X);
         }
-        switch (bId) {
-            case "b1":
-                if (isXturn){
-                    imageView = imageViewX;
-                    gameArray[0]=-1;
+        else {
+            imageView = new ImageView(O);
+        }
+        GridPane.setMargin(imageView, new Insets(25, 25, 25, 25));
+        if (player == iaPlayer){
+            int index = iaPlay();
+            gameArray[index]=player;
+            switch (index) {
+                case 0 -> b1.setDisable(true);
+                case 1 -> {
+                    b2.setDisable(true);
+                    GridPane.setColumnIndex(imageView, 1);
                 }
-                else {
-                    imageView = imageViewO;
-                    gameArray[0]=1;
+                case 2 -> {
+                    b3.setDisable(true);
+                    GridPane.setColumnIndex(imageView, 2);
                 }
+                case 3 -> {
+                    b4.setDisable(true);
+                    System.out.println("test");
+                    GridPane.setRowIndex(imageView, 1);
+                }
+                case 4 -> {
+                    b5.setDisable(true);
+                    GridPane.setRowIndex(imageView, 1);
+                    GridPane.setColumnIndex(imageView, 1);
+                }
+                case 5 -> {
+                    b6.setDisable(true);
+                    GridPane.setRowIndex(imageView, 1);
+                    GridPane.setColumnIndex(imageView, 2);
+                }
+                case 6 -> {
+                    b7.setDisable(true);
+                    GridPane.setRowIndex(imageView, 2);
+                }
+                case 7 -> {
+                    b8.setDisable(true);
+                    GridPane.setRowIndex(imageView, 2);
+                    GridPane.setColumnIndex(imageView, 1);
+                }
+                case 8 -> {
+                    b9.setDisable(true);
+                    GridPane.setRowIndex(imageView, 2);
+                    GridPane.setColumnIndex(imageView, 2);
+                }
+            }
+            System.out.println(Arrays.toString(gameArray));
+            double winner = checkWinner(gameArray);
+            if (winner == 1.0) {
+                System.out.println("O has won!");
+            } else if (winner == -1.0) {
+                System.out.println("X has won!");
+            } else {
+                System.out.println("Game in progress!");
+            }
+            FadeTransition fade = new FadeTransition();
+            fade.setDuration(Duration.millis(500));
+            fade.setFromValue(0);
+            fade.setToValue(10);
+            fade.setNode(imageView);
+            fade.play();
+            playGrid.getChildren().add(imageView);
+            player *= -1;
+            return;
+        }
 
-                break;
-            case "b2":
-                if (isXturn){
-                    imageView = imageViewX;
-                    gameArray[1]=-1;
-                }
-                else {
-                    imageView = imageViewO;
-                    gameArray[1]=1;
-                }
+        switch (buttonId) {
+            case "b1" -> gameArray[0] = player;
+            case "b2" -> {
+                gameArray[1] = player;
                 GridPane.setColumnIndex(imageView, 1);
-                break;
-            case "b3":
-                if (isXturn){
-                    imageView = imageViewX;
-                    gameArray[2]=-1;
-                }
-                else {
-                    imageView = imageViewO;
-                    gameArray[2]=1;
-                }
+            }
+            case "b3" -> {
+                gameArray[2] = player;
                 GridPane.setColumnIndex(imageView, 2);
-                break;
-            case "b4":
-                if (isXturn){
-                    imageView = imageViewX;
-                    gameArray[3]=-1;
-                }
-                else {
-                    imageView = imageViewO;
-                    gameArray[3]=1;
-                }
+            }
+            case "b4" -> {
+                gameArray[3] = player;
+                GridPane.setColumnIndex(imageView, 0);
                 GridPane.setRowIndex(imageView, 1);
-                break;
-            case "b5":
-                if (isXturn){
-                    imageView = imageViewX;
-                    gameArray[4]=-1;
-                }
-                else {
-                    imageView = imageViewO;
-                    gameArray[4]=1;
-                }
+            }
+            case "b5" -> {
+                gameArray[4] = player;
                 GridPane.setRowIndex(imageView, 1);
                 GridPane.setColumnIndex(imageView, 1);
-                break;
-            case "b6":
-                if (isXturn){
-                    imageView = imageViewX;
-                    gameArray[5]=-1;
-                }
-                else {
-                    imageView = imageViewO;
-                    gameArray[5]=1;
-                }
+            }
+            case "b6" -> {
+                gameArray[5] = player;
                 GridPane.setRowIndex(imageView, 1);
                 GridPane.setColumnIndex(imageView, 2);
-                break;
-            case "b7":
-                if (isXturn){
-                    imageView = imageViewX;
-                    gameArray[6]=-1;
-                }
-                else {
-                    imageView = imageViewO;
-                    gameArray[6]=1;
-                }
+            }
+            case "b7" -> {
+                gameArray[6] = player;
+                GridPane.setColumnIndex(imageView, 0);
                 GridPane.setRowIndex(imageView, 2);
-                break;
-            case "b8":
-                if (isXturn){
-                    imageView = imageViewX;
-                    gameArray[7]=-1;
-                }
-                else {
-                    imageView = imageViewO;
-                    gameArray[7]=1;
-                }
-                GridPane.setRowIndex(imageView, 2);
+            }
+            case "b8" -> {
+                gameArray[7] = player;
                 GridPane.setColumnIndex(imageView, 1);
-                break;
-            case "b9":
-                if (isXturn){
-                    imageView = imageViewX;
-                    gameArray[8]=-1;
-                }
-                else {
-                    imageView = imageViewO;
-                    gameArray[8]=1;
-                }
                 GridPane.setRowIndex(imageView, 2);
+            }
+            case "b9" -> {
+                gameArray[8] = player;
                 GridPane.setColumnIndex(imageView, 2);
-                break;
+                GridPane.setRowIndex(imageView, 2);
+            }
+            case "ia" -> {
+                return;
+            }
         }
         System.out.println(Arrays.toString(gameArray));
         double winner = checkWinner(gameArray);
@@ -483,6 +465,24 @@ public class MainController {
         fade.setNode(imageView);
         fade.play();
         playGrid.getChildren().add(imageView);
+        player *= -1;
+        TimeUnit.MILLISECONDS.sleep(300);
+        game("ia");
+    }
+
+    public int iaPlay(){
+        double min=100;
+        int index = 0;
+        double[] probaCoups = net.forwardPropagation(gameArray);
+        for (int i=0; i < probaCoups.length; i++){
+            if (probaCoups[i] < min && gameArray[i] == 0){
+                System.out.println(gameArray[i]);
+                System.out.println(i);
+                min = probaCoups[i];
+                index = i;
+            }
+        }
+        return index;
     }
 
     public static double checkWinner(double[] board) {
@@ -518,13 +518,12 @@ public class MainController {
                 return -1.0;
             }
         }
-
         return 0.0;
     }
 
     @FXML
     void test(){
-        MultiLayerPerceptron net = MultiLayerPerceptron.load("src/main/resources/models/model_2_256_0.1.srl");
+        net = MultiLayerPerceptron.load("src/main/resources/models/model_2_256_0.1.srl");
         double[] board = {0, 0, 0, -1, 1, 1, -1, -1, 0};
         double[] output = net.forwardPropagation(board);
         System.out.println(Arrays.toString(output));
@@ -535,7 +534,6 @@ public class MainController {
 
 
     public void goJamy(){
-
         Image animImage;
         int img = (int) (Math.random() * (3 - 1)) + 1;
         if (img == 1){
@@ -589,7 +587,7 @@ public class MainController {
         }
     }
 
-    public void initialize() {
+    public void initialize() throws InterruptedException {
         if (singlePlayerButton != null){ //Si on est dans l'écran titre
             Image backgroundTopimg = new Image("file:resources/images/backgroundTop.png");
             Image backgroundBottomimg = new Image("file:resources/images/backgroundBottom.png");
@@ -604,10 +602,18 @@ public class MainController {
             delayBackground.getKeyFrames().add(new KeyFrame(Duration.millis(700), event -> goJamy()));
             delayBackground.play();
         }
-        else if (b1 != null) { //Si on est dans le jeu
+        else if (playGrid != null) { //Si on est dans le jeu
             for (int i=0; i<9; i++){
                 gameArray[i]=0;
             }
+            final int randPlayer = (int) (Math.random() * (3 - 1)) + 1;
+            if (randPlayer == 1){
+                iaPlayer = -1;
+            }
+            else {
+                iaPlayer = 1;
+            }
+            game("ia");
         }
     }
 }
