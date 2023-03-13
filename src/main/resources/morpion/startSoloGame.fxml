@@ -40,6 +40,9 @@
             <MenuItem mnemonicParsing="false" onAction="#openDifficultySettings" text="Difficulty" />
             <MenuItem mnemonicParsing="false" onAction="#openModelSettings" text="Models" />
         </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+            <MenuItem onAction="#openRules" mnemonicParsing="false" text="Rules" />
+        </Menu>
     </MenuBar>
    <RadioButton fx:id="easyRadio" contentDisplay="CENTER" layoutX="100.0" layoutY="400.0" mnemonicParsing="false" textAlignment="CENTER" translateY="50.0">
       <toggleGroup>

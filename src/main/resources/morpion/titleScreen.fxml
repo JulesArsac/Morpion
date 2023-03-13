@@ -37,6 +37,9 @@
             <MenuItem mnemonicParsing="false" onAction="#openDifficultySettings" text="Difficulty" />
             <MenuItem mnemonicParsing="false" onAction="#openModelSettings" text="Models" />
         </Menu>
+         <Menu mnemonicParsing="false" text="Help">
+            <MenuItem onAction="#openRules" mnemonicParsing="false" text="Rules" />
+         </Menu>
     </MenuBar>
    <Button fx:id="singlePlayerButton" alignment="CENTER" contentDisplay="CENTER" layoutX="65.0" layoutY="222.0" mnemonicParsing="false" onAction="#onSinglePlayerButtonClick" prefHeight="70.0" prefWidth="200.0" text="Single Player" textAlignment="CENTER" translateZ="1.0">
       <font>

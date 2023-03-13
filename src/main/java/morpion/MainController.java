@@ -23,7 +23,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.util.Arrays;
 import java.util.TimerTask;
 
@@ -125,6 +124,17 @@ public class MainController {
         Stage stage = new Stage();
         stage.setResizable(false);
         stage.setTitle("Manage models");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    void openRules() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("rules.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 400, 700);
+        Stage stage = new Stage();
+        stage.setResizable(false);
+        stage.setTitle("TicTacToe Rules");
         stage.setScene(scene);
         stage.show();
     }

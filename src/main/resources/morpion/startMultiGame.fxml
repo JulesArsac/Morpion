@@ -15,6 +15,9 @@
          <MenuItem mnemonicParsing="false" onAction="#openDifficultySettings" text="Difficulty" />
          <MenuItem mnemonicParsing="false" onAction="#openModelSettings" text="Models" />
       </Menu>
+      <Menu mnemonicParsing="false" text="Help">
+         <MenuItem onAction="#openRules" mnemonicParsing="false" text="Rules" />
+      </Menu>
    </MenuBar>
    <TextField fx:id="textName1" layoutX="225.0" layoutY="250.0" />
    <TextField fx:id="textName2" layoutX="225.0" layoutY="358.0" />
