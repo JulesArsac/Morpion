@@ -5,7 +5,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="morpion.DifficultyController">
    <style>
-      -fx-background-color: #dae6f2
+      -fx-background-color: linear-gradient(#dae6f2, #6b91c0);
    </style>
    <children>
       <TextField fx:id="ndEasy" layoutX="107.0" layoutY="92.0" prefHeight="25.0" prefWidth="79.0" />
