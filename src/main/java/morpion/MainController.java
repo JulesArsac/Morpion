@@ -534,9 +534,12 @@ public class MainController {
 
     @FXML
     void test(){
-        MultiLayerPerceptron net = MultiLayerPerceptron.load("src/main/resources/models/model_2_0.01_64");
-        double[] board = {0, 0, 0, -1, 1, 1, -1, 0, 0};
+        MultiLayerPerceptron net = MultiLayerPerceptron.load("src/main/resources/models/model_2_256_0.1.srl");
+        double[] board = {0, 0, 0, -1, 1, 1, -1, -1, 0};
         double[] output = net.forwardPropagation(board);
+        System.out.println(Arrays.toString(output));
+        double[] board2 = {0, 0, 0, -1, 1, 1, -1, 0, 0};
+        output = net.forwardPropagation(board2);
         System.out.println(Arrays.toString(output));
     }
 
