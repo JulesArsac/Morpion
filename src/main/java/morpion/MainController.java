@@ -6,6 +6,7 @@ import ai.MultiLayerPerceptron;
 import ai.SigmoidalTransferFunction;
 import javafx.animation.*;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,13 +24,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import java.util.Arrays;
-import java.util.TimerTask;
+
+import java.util.*;
 
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import static ai.Test.loadCoupsFromFile;
@@ -339,13 +339,14 @@ public class MainController {
 
     public void getPlay(ActionEvent actionEvent) throws InterruptedException {
         Button clickedButton = (Button) actionEvent.getSource();
-        //clickedButton.setDisable(true);
+        clickedButton.setDisable(true);
         String bId = clickedButton.getId();
         game(bId);
     }
 
 
     public void game(String buttonId) throws InterruptedException {
+        System.out.println("Player: " + player);
         Image X = new Image("file:resources/images/X.png");
         Image O = new Image("file:resources/images/O.png");
         ImageView imageView;

@@ -48,5 +48,5 @@
          <Font size="30.0" />
       </font>
    </Label>
-   <Button fx:id="replayButton" onAction="#replay" layoutX="272.0" layoutY="522.0" mnemonicParsing="false" text="Rejouer" visible="false" />
+   <Button fx:id="replayButton" onAction="#resetGrid" layoutX="272.0" layoutY="522.0" mnemonicParsing="false" text="Rejouer" visible="false" />
 </Pane>
