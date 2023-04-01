@@ -27,7 +27,6 @@ import javafx.util.Duration;
 import java.util.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 // import javafx.scene.media.Media;
 
 import static ai.Test.loadCoupsFromFile;
@@ -469,6 +468,19 @@ public class MainController {
             }
             System.out.println(checkWinner(gameArray));
             winLabel.setText(playerToPlay.getName() + " a gagné !");
+            winLabel.setVisible(true);
+            replayButton.setVisible(true);
+            playGrid.setDisable(true);
+            return;
+        }
+        boolean isFinished = true;
+        for (Double value : gameArray) {
+            if (value == 0.0) {
+                isFinished = false;
+            }
+        }
+        if (isFinished) {
+            winLabel.setText("Égalité !");
             winLabel.setVisible(true);
             replayButton.setVisible(true);
             playGrid.setDisable(true);
