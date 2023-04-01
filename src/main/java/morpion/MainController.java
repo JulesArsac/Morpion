@@ -489,6 +489,7 @@ public class MainController {
     }
 
     public void resetGrid() {
+        replayButton.setVisible(false);
         ObservableList<Node> children = playGrid.getChildren();
         List<Node> nodesToRemove = new ArrayList<>(); // Nouvelle liste pour stocker les noeuds à supprimer
         for (Node child : children) {
@@ -504,6 +505,20 @@ public class MainController {
         playGrid.getChildren().removeAll(nodesToRemove); // Supprimer les noeuds de la liste principale en une seule fois
         for (int i=0; i<9; i++) {
             gameArray[i] = 0;
+        }
+        final int randPlayer = (int) (Math.random() * (3 - 1)) + 1;
+        if (randPlayer == 1){
+            player1.setPiece(-1.0);
+            player2.setPiece(1.0);
+            playerToPlay = player1;
+        }
+        else {
+            player1.setPiece(1.0);
+            player2.setPiece(-1.0);
+            playerToPlay = player2;
+        }
+        if (!player2.isIa()){ //Si on est en mode multijoueur
+            winLabel.setText("Au tour de " + playerToPlay.getName());
         }
         game("none");
     }
