@@ -52,7 +52,6 @@ public class MainController {
     private static MultiLayerPerceptron net;
     private int iaPlayer;
 
-
     @FXML
     Label textError;
 
@@ -64,6 +63,9 @@ public class MainController {
 
     @FXML
     Button backToMenu;
+
+    @FXML
+    Button replayButton;
 
     @FXML
     RadioButton easyRadio;
@@ -84,7 +86,10 @@ public class MainController {
     Label labelName1;
     @FXML
     Label labelName2;
-
+    @FXML
+    Label oWin;
+    @FXML
+    Label xWin;
     @FXML
     Button b1;
     @FXML
@@ -105,7 +110,6 @@ public class MainController {
     Button b9;
     @FXML
     GridPane playGrid;
-
     @FXML
     Pane mainPane;
 
@@ -367,7 +371,6 @@ public class MainController {
                 }
                 case 3 -> {
                     b4.setDisable(true);
-                    System.out.println("test");
                     GridPane.setRowIndex(imageView, 1);
                 }
                 case 4 -> {
@@ -395,15 +398,7 @@ public class MainController {
                     GridPane.setColumnIndex(imageView, 2);
                 }
             }
-            System.out.println(Arrays.toString(gameArray));
             double winner = checkWinner(gameArray);
-            if (winner == 1.0) {
-                System.out.println("O has won!");
-            } else if (winner == -1.0) {
-                System.out.println("X has won!");
-            } else {
-                System.out.println("Game in progress!");
-            }
             FadeTransition fade = new FadeTransition();
             fade.setDuration(Duration.millis(500));
             fade.setFromValue(0);
@@ -411,6 +406,17 @@ public class MainController {
             fade.setNode(imageView);
             fade.play();
             playGrid.getChildren().add(imageView);
+            if (winner == 1.0) {
+                oWin.setVisible(true);
+                replayButton.setVisible(true);
+                playGrid.setDisable(true);
+                return;
+            } else if (winner == -1.0) {
+                xWin.setVisible(true);
+                replayButton.setVisible(true);
+                playGrid.setDisable(true);
+                return;
+            }
             player *= -1;
             return;
         }
@@ -459,15 +465,7 @@ public class MainController {
                 return;
             }
         }
-        System.out.println(Arrays.toString(gameArray));
         double winner = checkWinner(gameArray);
-        if (winner == 1.0) {
-            System.out.println("O has won!");
-        } else if (winner == -1.0) {
-            System.out.println("X has won!");
-        } else {
-            System.out.println("Game in progress!");
-        }
         FadeTransition fade = new FadeTransition();
         fade.setDuration(Duration.millis(500));
         fade.setFromValue(0);
@@ -475,9 +473,24 @@ public class MainController {
         fade.setNode(imageView);
         fade.play();
         playGrid.getChildren().add(imageView);
+        if (winner == 1.0) {
+            oWin.setVisible(true);
+            replayButton.setVisible(true);
+            playGrid.setDisable(true);
+            return;
+        } else if (winner == -1.0) {
+            xWin.setVisible(true);
+            replayButton.setVisible(true);
+            playGrid.setDisable(true);
+            return;
+        }
         player *= -1;
         TimeUnit.MILLISECONDS.sleep(300);
         game("ia");
+    }
+
+    public void replay() {
+        playGrid.getChildren().removeAll();
     }
 
     public int iaPlay(){
@@ -530,18 +543,6 @@ public class MainController {
         }
         return 0.0;
     }
-
-    @FXML
-    void test(){
-        net = MultiLayerPerceptron.load("src/main/resources/models/model_2_256_0.1.srl");
-        double[] board = {0, 0, 0, -1, 1, 1, -1, -1, 0};
-        double[] output = net.forwardPropagation(board);
-        System.out.println(Arrays.toString(output));
-        double[] board2 = {0, 0, 0, -1, 1, 1, -1, 0, 0};
-        output = net.forwardPropagation(board2);
-        System.out.println(Arrays.toString(output));
-    }
-
 
     public void goJamy(){
         Image animImage;
