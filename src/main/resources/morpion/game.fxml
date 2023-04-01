@@ -38,12 +38,7 @@
       </children>
    </GridPane>
    <Button fx:id="buttonBackToLobby" layoutX="14.0" layoutY="42.0" mnemonicParsing="false" onAction="#backToLobby" text="Back to lobby" />
-   <Label fx:id="oWin" alignment="CENTER" contentDisplay="CENTER" layoutY="100.0" prefHeight="45.0" prefWidth="600.0" text="(O) a gagné !" visible="false">
-      <font>
-         <Font size="30.0" />
-      </font>
-   </Label>
-   <Label alignment="CENTER" contentDisplay="CENTER" layoutY="100.0" prefHeight="45.0" prefWidth="600.0" text="(X) a gagné !" visible="false" fx:id="xWin">
+   <Label fx:id="winLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="100.0" prefHeight="45.0" prefWidth="600.0" text="(O) a gagné !" visible="false">
       <font>
          <Font size="30.0" />
       </font>
