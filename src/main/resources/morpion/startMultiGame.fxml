@@ -21,8 +21,8 @@
    </MenuBar>
    <TextField fx:id="textName1" layoutX="225.0" layoutY="250.0" />
    <TextField fx:id="textName2" layoutX="225.0" layoutY="358.0" />
-   <Label layoutX="268.0" layoutY="216.0" text="Username 1" />
-   <Label layoutX="268.0" layoutY="326.0" text="Username 2" />
+   <Label layoutX="268.0" layoutY="225.0" text="Username 1" />
+   <Label layoutX="268.0" layoutY="333.0" text="Username 2" />
    <Label layoutX="160.0" layoutY="94.0" text="User VS User">
       <font>
          <Font size="50.0" />
@@ -50,6 +50,6 @@
       </textFill>
    </Label>
    <Button layoutX="277.0" layoutY="439.0" mnemonicParsing="false" onAction="#getPlayMulti" text="Play" />
-   <Label fx:id="labelName1" layoutX="247.0" layoutY="276.0" text="Choose a username" textFill="RED" visible="false" />
+   <Label fx:id="labelName1" layoutX="247.0" layoutY="275.0" text="Choose a username" textFill="RED" visible="false" />
    <Label fx:id="labelName2" layoutX="248.0" layoutY="384.0" text="Choose a username" textFill="RED" visible="false" />
 </AnchorPane>
