@@ -49,8 +49,6 @@ public class MainController {
     private ImageView backgroundTop;
     private ImageView backgroundBottom;
     private static MultiLayerPerceptron net;
-    private int score1;
-    private int score2;
 
     @FXML
     Label textError;
@@ -454,6 +452,7 @@ public class MainController {
         fade.play();
         playGrid.getChildren().add(imageView);
         if (checkWinner(gameArray)) {
+            playerToPlay.setScore(playerToPlay.getScore() + 1);
             System.out.println(checkWinner(gameArray));
             winLabel.setText(playerToPlay.getName() + " a gagné !");
             winLabel.setVisible(true);

@@ -5,6 +5,8 @@ public class Player {
     private String name;
     private boolean ia = false;
 
+    private int score = 0;
+
     public Player(int piece, String name) {
         this.piece = piece;
         this.name = name;
@@ -34,5 +36,13 @@ public class Player {
 
     public void setIa(boolean ia) {
         this.ia = ia;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }
