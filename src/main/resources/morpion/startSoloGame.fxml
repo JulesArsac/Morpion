@@ -41,7 +41,7 @@
             <MenuItem mnemonicParsing="false" onAction="#openModelSettings" text="Models" />
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
-            <MenuItem onAction="#openRules" mnemonicParsing="false" text="Rules" />
+            <MenuItem mnemonicParsing="false" onAction="#openRules" text="Rules" />
         </Menu>
     </MenuBar>
    <RadioButton fx:id="easyRadio" contentDisplay="CENTER" layoutX="100.0" layoutY="400.0" mnemonicParsing="false" textAlignment="CENTER" translateY="50.0">
@@ -59,4 +59,5 @@
    <Button fx:id="backToMenu" layoutX="14.0" layoutY="42.0" mnemonicParsing="false" onAction="#backToMenu" text="Back to menu" />
    <ProgressBar fx:id="progressBar" layoutX="204.0" layoutY="400.0" prefWidth="200.0" progress="0.0" visible="false" />
    <Label fx:id="textError" alignment="CENTER" contentDisplay="CENTER" layoutX="184.0" layoutY="373.0" prefHeight="26.0" prefWidth="241.0" text="Label" textAlignment="CENTER" visible="false" />
+   <Label fx:id="textNameError" layoutX="237.0" layoutY="300.0" text="Please choose an username" textFill="RED" visible="false" />
 </Pane>

@@ -24,13 +24,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.util.*;
-
-
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+// import javafx.scene.media.Media;
 
 import static ai.Test.loadCoupsFromFile;
 
@@ -52,7 +50,8 @@ public class MainController {
 
     @FXML
     Label textError;
-
+    @FXML
+    Label textNameError;
     @FXML
     ProgressBar progressBar;
 
@@ -231,6 +230,11 @@ public class MainController {
 
     @FXML
     void onClickButtonValidate(ActionEvent event) {
+        textNameError.setVisible(false);
+        if (soloname.getText().isEmpty()) {
+            textNameError.setVisible(true);
+            return;
+        }
         player1.setName(soloname.getText());
         player2.setName("IA");
         player2.setIa(true);
@@ -288,8 +292,6 @@ public class MainController {
                         System.out.println("---");
                         System.out.println("Load data ...");
                         HashMap<Integer, Coup> mapTrain = loadCoupsFromFile("./resources/train_dev_test/train.txt");
-                        // HashMap<Integer, Coup> mapDev = loadCoupsFromFile("./resources/train_dev_test/dev.txt");
-                        // HashMap<Integer, Coup> mapTest = loadCoupsFromFile("./resources/train_dev_test/test.txt");
                         System.out.println("---");
                         //TRAINING ...
                         for (int i = 0; i < epochs; i++) {
@@ -484,8 +486,6 @@ public class MainController {
         if (player2.isIa()){
             game("none");
         }
-        return;
-
     }
 
     public void resetGrid() {
