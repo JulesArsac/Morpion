@@ -105,6 +105,10 @@ public class MainController {
     @FXML
     Button b9;
     @FXML
+    Label labelScore1;
+    @FXML
+    Label labelScore2;
+    @FXML
     GridPane playGrid;
     @FXML
     Pane mainPane;
@@ -210,6 +214,8 @@ public class MainController {
 
     @FXML
     void backToLobby(ActionEvent event) throws IOException {
+        player1.setScore(0);
+        player2.setScore(0);
         if (isMulti) {
             root = FXMLLoader.load(getClass().getResource("startMultiGame.fxml"));
         }
@@ -453,6 +459,12 @@ public class MainController {
         playGrid.getChildren().add(imageView);
         if (checkWinner(gameArray)) {
             playerToPlay.setScore(playerToPlay.getScore() + 1);
+            if (playerToPlay == player1){
+                labelScore1.setText(player1.getName() + "\n" + "Score: " + player1.getScore());
+            }
+            else {
+                labelScore2.setText(player2.getName() + "\n" + "Score: " + player2.getScore());
+            }
             System.out.println(checkWinner(gameArray));
             winLabel.setText(playerToPlay.getName() + " a gagné !");
             winLabel.setVisible(true);
@@ -465,6 +477,9 @@ public class MainController {
         }
         else {
             playerToPlay = player1;
+        }
+        if (!player2.isIa()){ //Si on est en mode multijoueur
+            winLabel.setText("Au tour de " + playerToPlay.getName());
         }
         if (player2.isIa()){
             game("none");
@@ -603,6 +618,8 @@ public class MainController {
             delayBackground.play();
         }
         else if (playGrid != null) { //Si on est dans le jeu
+            labelScore1.setText(player1.getName() + "\n" + "Score: 0");
+            labelScore2.setText(player2.getName() + "\n" + "Score: 0");
             for (int i=0; i<9; i++){
                 gameArray[i]=0;
             }
@@ -616,6 +633,9 @@ public class MainController {
                 player1.setPiece(1.0);
                 player2.setPiece(-1.0);
                 playerToPlay = player2;
+            }
+            if (!player2.isIa()){ //Si on est en mode multijoueur
+                winLabel.setText("Au tour de " + playerToPlay.getName());
             }
             game("none");
         }

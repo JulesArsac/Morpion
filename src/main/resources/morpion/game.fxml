@@ -38,10 +38,20 @@
       </children>
    </GridPane>
    <Button fx:id="buttonBackToLobby" layoutX="14.0" layoutY="42.0" mnemonicParsing="false" onAction="#backToLobby" text="Back to lobby" />
-   <Label fx:id="winLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="100.0" prefHeight="45.0" prefWidth="600.0" text="(O) a gagné !" visible="false">
+   <Label fx:id="winLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="100.0" prefHeight="45.0" prefWidth="600.0" text="">
       <font>
          <Font size="30.0" />
       </font>
    </Label>
-   <Button fx:id="replayButton" onAction="#resetGrid" layoutX="272.0" layoutY="522.0" mnemonicParsing="false" text="Rejouer" visible="false" />
+   <Button fx:id="replayButton" layoutX="272.0" layoutY="522.0" mnemonicParsing="false" onAction="#resetGrid" text="Rejouer" visible="false" />
+   <Label fx:id="labelScore1" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="288.0" prefHeight="45.0" prefWidth="122.0" text="Label" textAlignment="CENTER">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </Label>
+   <Label fx:id="labelScore2" alignment="CENTER" contentDisplay="CENTER" layoutX="464.0" layoutY="288.0" prefHeight="45.0" prefWidth="122.0" text="Label" textAlignment="CENTER">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </Label>
 </Pane>

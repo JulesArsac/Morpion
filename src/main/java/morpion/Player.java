@@ -2,7 +2,7 @@ package morpion;
 
 public class Player {
     private double piece;
-    private String name;
+    private String name = "Default name";
     private boolean ia = false;
 
     private int score = 0;
