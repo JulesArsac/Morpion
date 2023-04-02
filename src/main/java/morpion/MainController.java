@@ -20,6 +20,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
@@ -46,6 +49,10 @@ public class MainController {
     private ImageView backgroundTop;
     private ImageView backgroundBottom;
     private static MultiLayerPerceptron net;
+    private static boolean isMusicPlaying = false;
+    private static MediaPlayer mediaPlayer;
+    private static MediaPlayer newMediaPlayer;
+
 
     @FXML
     Label textError;
@@ -146,6 +153,8 @@ public class MainController {
 
     @FXML
     void backToMenu(ActionEvent event) throws IOException {
+        changeMusicTrack("./src/main/resources/sounds/MorpionOST3.mp3");
+
         root = FXMLLoader.load(getClass().getResource("titleScreen.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -154,8 +163,44 @@ public class MainController {
         stage.show();
     }
 
+
+
+    void changeMusicTrack(String fileName){
+        if (mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING){
+            Media media = new Media(new File(fileName).toURI().toString());
+            Duration currentTime = mediaPlayer.getCurrentTime();
+            newMediaPlayer = new MediaPlayer(media);
+            newMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            newMediaPlayer.setStartTime(currentTime);
+            newMediaPlayer.setOnPlaying(() -> {
+                System.out.println("New Media player is now playing!");
+                newMediaPlayer.setStartTime(Duration.ZERO);
+                mediaPlayer.stop();
+            });
+            newMediaPlayer.play();
+
+        }
+        else {
+            Media media = new Media(new File(fileName).toURI().toString());
+            Duration currentTime = newMediaPlayer.getCurrentTime();
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.setStartTime(currentTime);
+            mediaPlayer.setOnPlaying(() -> {
+                System.out.println("Media player is now playing!");
+                mediaPlayer.setStartTime(Duration.ZERO);
+                newMediaPlayer.stop();
+            });
+            mediaPlayer.play();
+
+        }
+    }
+
+
+
     @FXML
     void onSinglePlayerButtonClick(ActionEvent event) throws IOException {
+        changeMusicTrack("./src/main/resources/sounds/MorpionOST2.mp3");
         delayBackground.stop();
         root = FXMLLoader.load(getClass().getResource("startSoloGame.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -167,6 +212,7 @@ public class MainController {
 
     @FXML
     void onMultiPlayerButtonClick(ActionEvent event) throws IOException {
+        changeMusicTrack("./src/main/resources/sounds/MorpionOST2.mp3");
         delayBackground.stop();
         root = FXMLLoader.load(getClass().getResource("startMultiGame.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -212,6 +258,7 @@ public class MainController {
 
     @FXML
     void backToLobby(ActionEvent event) throws IOException {
+        changeMusicTrack("./src/main/resources/sounds/MorpionOST2.mp3");
         player1.setScore(0);
         player2.setScore(0);
         if (isMulti) {
@@ -466,7 +513,6 @@ public class MainController {
             else {
                 labelScore2.setText(player2.getName() + "\n" + "Score: " + player2.getScore());
             }
-            System.out.println(checkWinner(gameArray));
             winLabel.setText(playerToPlay.getName() + " a gagné !");
             winLabel.setVisible(true);
             replayButton.setVisible(true);
@@ -630,6 +676,13 @@ public class MainController {
 
     // Initialize menu
     public void initialize() {
+        if (!isMusicPlaying){
+            isMusicPlaying = true;
+            Media media = new Media(new File("./src/main/resources/sounds/MorpionOST4.mp3").toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.play();
+        }
         if (singlePlayerButton != null){ //Si on est dans l'écran titre
             Image backgroundTopimg = new Image("file:resources/images/backgroundTop.png");
             Image backgroundBottomimg = new Image("file:resources/images/backgroundBottom.png");
@@ -645,6 +698,7 @@ public class MainController {
             delayBackground.play();
         }
         else if (playGrid != null) { //Si on est dans le jeu
+            changeMusicTrack("./src/main/resources/sounds/MorpionOST.mp3");
             labelScore1.setText(player1.getName() + "\n" + "Score: 0");
             labelScore2.setText(player2.getName() + "\n" + "Score: 0");
             for (int i=0; i<9; i++){
