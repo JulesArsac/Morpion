@@ -505,7 +505,7 @@ public class MainController {
         fade.setNode(imageView);
         fade.play();
         playGrid.getChildren().add(imageView);
-        if (checkWinner(gameArray)) {
+        if (checkWinner(gameArray, playGrid)) {
             playerToPlay.setScore(playerToPlay.getScore() + 1);
             if (playerToPlay == player1){
                 labelScore1.setText(player1.getName() + "\n" + "Score: " + player1.getScore());
@@ -596,26 +596,96 @@ public class MainController {
         return index;
     }
 
-    public static boolean checkWinner(double[] board) {
+    public static boolean checkWinner(double[] board, GridPane playGrid) {
+        Image X = new Image("file:resources/images/redX.png");
+        Image O = new Image("file:resources/images/redO.png");
+        ImageView imageView;
         for (int i = 0; i < 9; i += 3) {
             if (board[i] == board[i+1] && board[i+1] == board[i+2] && board[i] != 0.0) {
-                System.out.println("1");
+                for (int j=0; j < 3; j++){
+                    if (board[i] == -1.0){
+                        imageView = new ImageView(X);
+                    }
+                    else{
+                        imageView = new ImageView(O);
+                    }
+                    GridPane.setMargin(imageView, new Insets(25, 25, 25, 25));
+                    GridPane.setColumnIndex(imageView, j);
+                    GridPane.setRowIndex(imageView, i/3);
+                    FadeTransition fade = new FadeTransition();
+                    fade.setDuration(Duration.millis(500));
+                    fade.setFromValue(0);
+                    fade.setToValue(10);
+                    fade.setNode(imageView);
+                    fade.play();
+                    playGrid.getChildren().add(imageView);
+                }
                 return true;
             }
         }
         for (int i = 0; i < 3; i++) {
             if (board[i] == board[i+3] && board[i+3] == board[i+6] && board[i] != 0.0) {
-                System.out.println("2");
+                for (int j=0; j < 3; j++){
+                    if (board[i] == -1.0){
+                        imageView = new ImageView(X);
+                    }
+                    else{
+                        imageView = new ImageView(O);
+                    }
+                    GridPane.setMargin(imageView, new Insets(25, 25, 25, 25));
+                    GridPane.setColumnIndex(imageView, i);
+                    GridPane.setRowIndex(imageView, j);
+                    FadeTransition fade = new FadeTransition();
+                    fade.setDuration(Duration.millis(500));
+                    fade.setFromValue(0);
+                    fade.setToValue(10);
+                    fade.setNode(imageView);
+                    fade.play();
+                    playGrid.getChildren().add(imageView);
+                }
                 return true;
             }
         }
         if (board[0] == board[4] && board[4] == board[8] && board[0] != 0.0) {
-            System.out.println("3");
+            for (int j = 0; j < 3; j++) {
+                if (board[0] == -1.0) {
+                    imageView = new ImageView(X);
+                } else {
+                    imageView = new ImageView(O);
+                }
+                GridPane.setMargin(imageView, new Insets(25, 25, 25, 25));
+                GridPane.setColumnIndex(imageView, j);
+                GridPane.setRowIndex(imageView, j);
+                FadeTransition fade = new FadeTransition();
+                fade.setDuration(Duration.millis(500));
+                fade.setFromValue(0);
+                fade.setToValue(10);
+                fade.setNode(imageView);
+                fade.play();
+                playGrid.getChildren().add(imageView);
+            }
             return true;
         }
         if (board[2] == board[4] && board[4] == board[6] && board[2] != 0.0) {
-            System.out.println("4");
+            for (int j = 0; j < 3; j++) {
+                if (board[2] == -1.0) {
+                    imageView = new ImageView(X);
+                } else {
+                    imageView = new ImageView(O);
+                }
+                GridPane.setMargin(imageView, new Insets(25, 25, 25, 25));
+                GridPane.setColumnIndex(imageView, j);
+                GridPane.setRowIndex(imageView, 2-j);
+                FadeTransition fade = new FadeTransition();
+                fade.setDuration(Duration.millis(500));
+                fade.setFromValue(0);
+                fade.setToValue(10);
+                fade.setNode(imageView);
+                fade.play();
+                playGrid.getChildren().add(imageView);
+            }
             return true;
+
         }
         return false;
     }
