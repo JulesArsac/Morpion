@@ -40,6 +40,9 @@
             <MenuItem mnemonicParsing="false" onAction="#openDifficultySettings" text="Difficulty" />
             <MenuItem mnemonicParsing="false" onAction="#openModelSettings" text="Models" />
         </Menu>
+        <Menu mnemonicParsing="false" text="Audio">
+            <MenuItem fx:id="soundMenu" onAction="#openSound" mnemonicParsing="false" text="Disable music" />
+        </Menu>
         <Menu mnemonicParsing="false" text="Help">
             <MenuItem mnemonicParsing="false" onAction="#openRules" text="Rules" />
         </Menu>

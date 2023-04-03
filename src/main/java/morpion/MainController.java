@@ -12,9 +12,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,6 +26,7 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -53,7 +56,8 @@ public class MainController {
     private static MediaPlayer mediaPlayer;
     private static MediaPlayer newMediaPlayer;
 
-
+    @FXML
+    MenuItem soundMenu;
     @FXML
     Label textError;
     @FXML
@@ -163,8 +167,6 @@ public class MainController {
         stage.show();
     }
 
-
-
     void changeMusicTrack(String fileName){
         if (mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING){
             Media media = new Media(new File(fileName).toURI().toString());
@@ -195,8 +197,6 @@ public class MainController {
 
         }
     }
-
-
 
     @FXML
     void onSinglePlayerButtonClick(ActionEvent event) throws IOException {
@@ -741,6 +741,21 @@ public class MainController {
     public class renderBackground extends TimerTask {
         public void run() {
             Platform.runLater(MainController.this::goJamy);
+        }
+    }
+
+    public void openSound() {
+        if (isMusicPlaying) {
+            mediaPlayer.setVolume(0.0);
+            newMediaPlayer.setVolume(0.0);
+            soundMenu.setText("Enable music");
+            isMusicPlaying = false;
+        }
+        else {
+            mediaPlayer.setVolume(100.0);
+            newMediaPlayer.setVolume(100.0);
+            soundMenu.setText("Disable music");
+            isMusicPlaying = true;
         }
     }
 
