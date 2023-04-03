@@ -42,6 +42,14 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Audio">
             <MenuItem fx:id="soundMenu" onAction="#openSound" mnemonicParsing="false" text="Disable music" />
+            <CustomMenuItem>
+                <content>
+                    <VBox spacing="5">
+                        <Label text="Volume" textFill="#000000"/>
+                        <Slider fx:id="volumeSlider" min="0.0" max="1.0" />
+                    </VBox>
+                </content>
+            </CustomMenuItem>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
             <MenuItem mnemonicParsing="false" onAction="#openRules" text="Rules" />

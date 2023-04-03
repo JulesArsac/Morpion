@@ -55,7 +55,11 @@ public class MainController {
     private static boolean isMusicPlaying = false;
     private static MediaPlayer mediaPlayer;
     private static MediaPlayer newMediaPlayer;
+    private static boolean isMuted = false;
+    private static double volume = 1.0;
 
+    @FXML
+    Slider volumeSlider;
     @FXML
     MenuItem soundMenu;
     @FXML
@@ -179,6 +183,7 @@ public class MainController {
                 newMediaPlayer.setStartTime(Duration.ZERO);
                 mediaPlayer.stop();
             });
+            newMediaPlayer.setVolume(volume);
             newMediaPlayer.play();
 
         }
@@ -193,6 +198,7 @@ public class MainController {
                 mediaPlayer.setStartTime(Duration.ZERO);
                 newMediaPlayer.stop();
             });
+            mediaPlayer.setVolume(volume);
             mediaPlayer.play();
 
         }
@@ -745,22 +751,44 @@ public class MainController {
     }
 
     public void openSound() {
-        if (isMusicPlaying) {
-            mediaPlayer.setVolume(0.0);
-            newMediaPlayer.setVolume(0.0);
+        if (!isMuted) {
+            volume = 0.0;
+            if (mediaPlayer != null){
+                mediaPlayer.setVolume(volume);
+            }
+            if (newMediaPlayer != null){
+                newMediaPlayer.setVolume(volume);
+            }
             soundMenu.setText("Enable music");
-            isMusicPlaying = false;
+            isMuted = true;
         }
         else {
-            mediaPlayer.setVolume(100.0);
-            newMediaPlayer.setVolume(100.0);
+            volume = 1.0;
+            if (mediaPlayer != null){
+                mediaPlayer.setVolume(volume);
+            }
+            if (newMediaPlayer != null){
+                newMediaPlayer.setVolume(volume);
+            }
             soundMenu.setText("Disable music");
-            isMusicPlaying = true;
+            isMuted = false;
         }
     }
 
     // Initialize menu
     public void initialize() {
+        volumeSlider.setValue(volume);
+
+        // bind volume slider value to volume variable
+        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            volume = newValue.doubleValue();
+            if (mediaPlayer != null){
+                mediaPlayer.setVolume(volume);
+            }
+            if (newMediaPlayer != null){
+                newMediaPlayer.setVolume(volume);
+            }
+        });
         if (!isMusicPlaying){
             isMusicPlaying = true;
             Media media = new Media(new File("./src/main/resources/sounds/MorpionOST4.mp3").toURI().toString());
