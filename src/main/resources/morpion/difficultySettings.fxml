@@ -20,7 +20,7 @@
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="107.0" layoutY="45.0" prefHeight="40.0" prefWidth="79.0" text="Nodes count" textAlignment="CENTER" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="198.0" layoutY="45.0" prefHeight="40.0" prefWidth="79.0" text="Learning rate" textAlignment="CENTER" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="291.0" layoutY="45.0" prefHeight="40.0" prefWidth="79.0" text="Layers count" textAlignment="CENTER" />
-      <Button layoutX="166.0" layoutY="248.0" mnemonicParsing="false" onAction="#validateDifficulty" prefWidth="66.0" text="Save" />
+      <Button layoutX="166.0" layoutY="248.0" mnemonicParsing="false" onAction="#validateChoises" prefWidth="66.0" text="Save" />
       <Button fx:id="quitButton" layoutX="306.0" layoutY="248.0" mnemonicParsing="false" onAction="#quitDifficulty" prefWidth="66.0" text="Close" />
       <Button fx:id="resetButton" layoutX="28.0" layoutY="248.0" mnemonicParsing="false" onAction="#resetValues" prefWidth="66.0" text="Reset" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="85.0" prefHeight="40.0" prefWidth="79.0" text="Easy" textAlignment="CENTER" />

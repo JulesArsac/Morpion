@@ -12,21 +12,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -52,7 +48,6 @@ public class MainController {
     private ImageView backgroundTop;
     private ImageView backgroundBottom;
     private static MultiLayerPerceptron net;
-    private static boolean isMusicPlaying = false;
     private static MediaPlayer mediaPlayer;
     private static MediaPlayer newMediaPlayer;
     private static boolean isMuted = false;
@@ -68,25 +63,18 @@ public class MainController {
     Label textNameError;
     @FXML
     ProgressBar progressBar;
-
     @FXML
     Button singlePlayerButton;
-
     @FXML
     Button backToMenu;
-
     @FXML
     Button replayButton;
-
     @FXML
     RadioButton easyRadio;
-
     @FXML
     RadioButton mediumRadio;
-
     @FXML
     RadioButton hardRadio;
-
     @FXML
     TextField soloname;
     @FXML
@@ -125,9 +113,56 @@ public class MainController {
     GridPane playGrid;
     @FXML
     Pane mainPane;
-
     @FXML
-    void openDifficultySettings() throws IOException {
+    Button buttonValidate;
+    @FXML
+    Button buttonBackToLobby;
+
+    // Initialize menu
+    public void initialize() {
+        setupAudio();
+        if (singlePlayerButton != null){ //Si on est dans l'écran titre
+            Image backgroundTopimg = new Image("file:resources/images/backgroundTop.png");
+            Image backgroundBottomimg = new Image("file:resources/images/backgroundBottom.png");
+            backgroundTop = new ImageView(backgroundTopimg);
+            backgroundBottom = new ImageView(backgroundBottomimg);
+            mainPane.getChildren().add(backgroundTop);
+            mainPane.getChildren().add(backgroundBottom);
+            backgroundTop.toBack();
+            backgroundBottom.toBack();
+            delayBackground = new Timeline();
+            delayBackground.setCycleCount(Timeline.INDEFINITE);
+            delayBackground.getKeyFrames().add(new KeyFrame(Duration.millis(700), event -> animateTitleScreenBackground()));
+            delayBackground.play();
+        }
+        else if (playGrid != null) { //Si on est dans le jeu
+            changeMusicTrack("./src/main/resources/sounds/MorpionOST.mp3");
+            labelScore1.setText(player1.getName() + "\n" + "Score: 0");
+            labelScore2.setText(player2.getName() + "\n" + "Score: 0");
+            for (int i=0; i<9; i++){
+                gameArray[i]=0;
+            }
+            final int randPlayer = (int) (Math.random() * (3 - 1)) + 1;
+            if (randPlayer == 1){
+                player1.setPiece(-1.0);
+                player2.setPiece(1.0);
+                playerToPlay = player1;
+            }
+            else {
+                player1.setPiece(1.0);
+                player2.setPiece(-1.0);
+                playerToPlay = player2;
+            }
+            if (!player2.isIa()){ //Si on est en mode multijoueur
+                winLabel.setText("Au tour de " + playerToPlay.getName());
+            }
+            mainGameLogic("none");
+        }
+    }
+
+    // Window-opening functions
+    @FXML
+    public void openDifficultySettings() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("difficultySettings.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 300);
         Stage stage = new Stage();
@@ -138,7 +173,7 @@ public class MainController {
     }
 
     @FXML
-    void openModelSettings() throws IOException {
+    public void openModelSettings() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("deleteConfigs.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 300, 400);
         Stage stage = new Stage();
@@ -149,7 +184,7 @@ public class MainController {
     }
 
     @FXML
-    void openRules() throws IOException {
+    public void openRules() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("rules.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 700);
         Stage stage = new Stage();
@@ -159,53 +194,10 @@ public class MainController {
         stage.show();
     }
 
+
+    // Screen-changing functions
     @FXML
-    void backToMenu(ActionEvent event) throws IOException {
-        changeMusicTrack("./src/main/resources/sounds/MorpionOST3.mp3");
-
-        root = FXMLLoader.load(getClass().getResource("titleScreen.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    void changeMusicTrack(String fileName){
-        if (mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING){
-            Media media = new Media(new File(fileName).toURI().toString());
-            Duration currentTime = mediaPlayer.getCurrentTime();
-            newMediaPlayer = new MediaPlayer(media);
-            newMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            newMediaPlayer.setStartTime(currentTime);
-            newMediaPlayer.setOnPlaying(() -> {
-                System.out.println("New Media player is now playing!");
-                newMediaPlayer.setStartTime(Duration.ZERO);
-                mediaPlayer.stop();
-            });
-            newMediaPlayer.setVolume(volume);
-            newMediaPlayer.play();
-
-        }
-        else {
-            Media media = new Media(new File(fileName).toURI().toString());
-            Duration currentTime = newMediaPlayer.getCurrentTime();
-            mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            mediaPlayer.setStartTime(currentTime);
-            mediaPlayer.setOnPlaying(() -> {
-                System.out.println("Media player is now playing!");
-                mediaPlayer.setStartTime(Duration.ZERO);
-                newMediaPlayer.stop();
-            });
-            mediaPlayer.setVolume(volume);
-            mediaPlayer.play();
-
-        }
-    }
-
-    @FXML
-    void onSinglePlayerButtonClick(ActionEvent event) throws IOException {
+    public void onSinglePlayerButtonClick(ActionEvent event) throws IOException {
         changeMusicTrack("./src/main/resources/sounds/MorpionOST2.mp3");
         delayBackground.stop();
         root = FXMLLoader.load(getClass().getResource("startSoloGame.fxml"));
@@ -217,7 +209,7 @@ public class MainController {
     }
 
     @FXML
-    void onMultiPlayerButtonClick(ActionEvent event) throws IOException {
+    public void onMultiPlayerButtonClick(ActionEvent event) throws IOException {
         changeMusicTrack("./src/main/resources/sounds/MorpionOST2.mp3");
         delayBackground.stop();
         root = FXMLLoader.load(getClass().getResource("startMultiGame.fxml"));
@@ -229,50 +221,9 @@ public class MainController {
     }
 
     @FXML
-    void getPlayMulti(ActionEvent event) throws IOException{
-        labelName1.setVisible(false);
-        labelName2.setVisible(false);
-        if (textName1.getText().isBlank() && textName2.getText().isBlank()){
-            labelName1.setVisible(true);
-            labelName2.setVisible(true);
-        }
-        else if (textName1.getText().isBlank()){
-            labelName1.setVisible(true);
-        }
-        else if (textName2.getText().isBlank()){
-            labelName2.setVisible(true);
-        }
-        else {
-            player1.setName(textName1.getText());
-            player2.setName(textName2.getText());
-            player2.setIa(false);
-            isMulti=true;
-            root = FXMLLoader.load(getClass().getResource("game.fxml"));
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-        }
-    }
-
-    @FXML
-    Button buttonValidate;
-
-    @FXML
-    Button buttonBackToLobby;
-
-    @FXML
-    void backToLobby(ActionEvent event) throws IOException {
-        changeMusicTrack("./src/main/resources/sounds/MorpionOST2.mp3");
-        player1.setScore(0);
-        player2.setScore(0);
-        if (isMulti) {
-            root = FXMLLoader.load(getClass().getResource("startMultiGame.fxml"));
-        }
-        else {
-            root = FXMLLoader.load(getClass().getResource("startSoloGame.fxml"));
-        }
+    public void backToMenu(ActionEvent event) throws IOException {
+        changeMusicTrack("./src/main/resources/sounds/MorpionOST3.mp3");
+        root = FXMLLoader.load(getClass().getResource("titleScreen.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setResizable(false);
@@ -281,7 +232,7 @@ public class MainController {
     }
 
     @FXML
-    void onClickButtonValidate(ActionEvent event) {
+    public void getPlaySolo(ActionEvent event) {
         textNameError.setVisible(false);
         if (soloname.getText().isEmpty()) {
             textNameError.setVisible(true);
@@ -397,14 +348,62 @@ public class MainController {
         }
     }
 
-    public void getPlay(ActionEvent actionEvent) {
+    @FXML
+    public void getPlayMulti(ActionEvent event) throws IOException{
+        labelName1.setVisible(false);
+        labelName2.setVisible(false);
+        if (textName1.getText().isBlank() && textName2.getText().isBlank()){
+            labelName1.setVisible(true);
+            labelName2.setVisible(true);
+        }
+        else if (textName1.getText().isBlank()){
+            labelName1.setVisible(true);
+        }
+        else if (textName2.getText().isBlank()){
+            labelName2.setVisible(true);
+        }
+        else {
+            player1.setName(textName1.getText());
+            player2.setName(textName2.getText());
+            player2.setIa(false);
+            isMulti=true;
+            root = FXMLLoader.load(getClass().getResource("game.fxml"));
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+        }
+    }
+
+    @FXML
+    public void backToLobby(ActionEvent event) throws IOException {
+        changeMusicTrack("./src/main/resources/sounds/MorpionOST2.mp3");
+        player1.setScore(0);
+        player2.setScore(0);
+        if (isMulti) {
+            root = FXMLLoader.load(getClass().getResource("startMultiGame.fxml"));
+        }
+        else {
+            root = FXMLLoader.load(getClass().getResource("startSoloGame.fxml"));
+        }
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+    // Game-logic functions
+    public void getClickedButton(ActionEvent actionEvent) {
         Button clickedButton = (Button) actionEvent.getSource();
         clickedButton.setDisable(true);
         String bId = clickedButton.getId();
-        game(bId);
+        mainGameLogic(bId);
     }
 
-    public void game(String buttonId) {
+    public void mainGameLogic(String buttonId) {
         Image X = new Image("file:resources/images/X.png");
         Image O = new Image("file:resources/images/O.png");
         ImageView imageView;
@@ -416,7 +415,7 @@ public class MainController {
         }
         GridPane.setMargin(imageView, new Insets(25, 25, 25, 25));
         if (playerToPlay.isIa()){
-            int index = iaPlay();
+            int index = getIAMove();
             gameArray[index]=playerToPlay.getPiece();
             switch (index) {
                 case 0 -> b1.setDisable(true);
@@ -548,7 +547,7 @@ public class MainController {
             winLabel.setText("Au tour de " + playerToPlay.getName());
         }
         if (player2.isIa()){
-            game("none");
+            mainGameLogic("none");
         }
     }
 
@@ -584,10 +583,10 @@ public class MainController {
         if (!player2.isIa()){ //Si on est en mode multijoueur
             winLabel.setText("Au tour de " + playerToPlay.getName());
         }
-        game("none");
+        mainGameLogic("none");
     }
 
-    public int iaPlay(){
+    public int getIAMove(){
         double min=100;
         int index = 0;
         double[] probaCoups = net.forwardPropagation(gameArray);
@@ -696,7 +695,7 @@ public class MainController {
         return false;
     }
 
-    public void goJamy(){
+    public void animateTitleScreenBackground(){
         Image animImage;
         int img = (int) (Math.random() * (3 - 1)) + 1;
         if (img == 1){
@@ -746,11 +745,31 @@ public class MainController {
 
     public class renderBackground extends TimerTask {
         public void run() {
-            Platform.runLater(MainController.this::goJamy);
+            Platform.runLater(MainController.this::animateTitleScreenBackground);
         }
     }
 
-    public void openSound() {
+    public void setupAudio(){
+        volumeSlider.setValue(volume);
+
+        // Change the volume value according to the slider
+        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            volume = newValue.doubleValue();
+            if (mediaPlayer != null){
+                mediaPlayer.setVolume(volume);
+            }
+            if (newMediaPlayer != null){
+                newMediaPlayer.setVolume(volume);
+            }
+        });
+        if (mediaPlayer == null || newMediaPlayer == null){
+            Media media = new Media(new File("./src/main/resources/sounds/MorpionOST4.mp3").toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.play();
+        }
+    }
+    public void muteAudio() {
         if (!isMuted) {
             volume = 0.0;
             if (mediaPlayer != null){
@@ -775,63 +794,35 @@ public class MainController {
         }
     }
 
-    // Initialize menu
-    public void initialize() {
-        volumeSlider.setValue(volume);
-
-        // bind volume slider value to volume variable
-        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            volume = newValue.doubleValue();
-            if (mediaPlayer != null){
-                mediaPlayer.setVolume(volume);
-            }
-            if (newMediaPlayer != null){
-                newMediaPlayer.setVolume(volume);
-            }
-        });
-        if (!isMusicPlaying){
-            isMusicPlaying = true;
-            Media media = new Media(new File("./src/main/resources/sounds/MorpionOST4.mp3").toURI().toString());
+    public void changeMusicTrack(String fileName){
+        if (mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING){
+            Media media = new Media(new File(fileName).toURI().toString());
+            Duration currentTime = mediaPlayer.getCurrentTime();
+            newMediaPlayer = new MediaPlayer(media);
+            newMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            newMediaPlayer.setStartTime(currentTime);
+            newMediaPlayer.setOnPlaying(() -> {
+                System.out.println("New Media player is now playing!");
+                newMediaPlayer.setStartTime(Duration.ZERO);
+                mediaPlayer.stop();
+            });
+            newMediaPlayer.setVolume(volume);
+            newMediaPlayer.play();
+        }
+        else {
+            Media media = new Media(new File(fileName).toURI().toString());
+            Duration currentTime = newMediaPlayer.getCurrentTime();
             mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.setStartTime(currentTime);
+            mediaPlayer.setOnPlaying(() -> {
+                System.out.println("Media player is now playing!");
+                mediaPlayer.setStartTime(Duration.ZERO);
+                newMediaPlayer.stop();
+            });
+            mediaPlayer.setVolume(volume);
             mediaPlayer.play();
         }
-        if (singlePlayerButton != null){ //Si on est dans l'écran titre
-            Image backgroundTopimg = new Image("file:resources/images/backgroundTop.png");
-            Image backgroundBottomimg = new Image("file:resources/images/backgroundBottom.png");
-            backgroundTop = new ImageView(backgroundTopimg);
-            backgroundBottom = new ImageView(backgroundBottomimg);
-            mainPane.getChildren().add(backgroundTop);
-            mainPane.getChildren().add(backgroundBottom);
-            backgroundTop.toBack();
-            backgroundBottom.toBack();
-            delayBackground = new Timeline();
-            delayBackground.setCycleCount(Timeline.INDEFINITE);
-            delayBackground.getKeyFrames().add(new KeyFrame(Duration.millis(700), event -> goJamy()));
-            delayBackground.play();
-        }
-        else if (playGrid != null) { //Si on est dans le jeu
-            changeMusicTrack("./src/main/resources/sounds/MorpionOST.mp3");
-            labelScore1.setText(player1.getName() + "\n" + "Score: 0");
-            labelScore2.setText(player2.getName() + "\n" + "Score: 0");
-            for (int i=0; i<9; i++){
-                gameArray[i]=0;
-            }
-            final int randPlayer = (int) (Math.random() * (3 - 1)) + 1;
-            if (randPlayer == 1){
-                player1.setPiece(-1.0);
-                player2.setPiece(1.0);
-                playerToPlay = player1;
-            }
-            else {
-                player1.setPiece(1.0);
-                player2.setPiece(-1.0);
-                playerToPlay = player2;
-            }
-            if (!player2.isIa()){ //Si on est en mode multijoueur
-                winLabel.setText("Au tour de " + playerToPlay.getName());
-            }
-            game("none");
-        }
     }
+
 }

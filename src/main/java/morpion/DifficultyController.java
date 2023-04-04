@@ -1,12 +1,7 @@
 package morpion;
 
 import ai.ConfigFileLoader;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
@@ -15,8 +10,6 @@ import javafx.util.converter.IntegerStringConverter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class DifficultyController {
     @FXML
@@ -98,7 +91,7 @@ public class DifficultyController {
     }
 
     @FXML
-    void validateDifficulty() throws IOException {
+    void validateChoises() throws IOException {
         Boolean validate = true;
         String ndEasyValue = ndEasy.getText();
         String layEasyValue = layEasy.getText();

@@ -14,7 +14,7 @@
          <MenuItem mnemonicParsing="false" onAction="#openModelSettings" text="Models" />
       </Menu>
        <Menu mnemonicParsing="false" text="Audio">
-           <MenuItem fx:id="soundMenu" onAction="#openSound" mnemonicParsing="false" text="Disable music" />
+           <MenuItem fx:id="soundMenu" onAction="#muteAudio" mnemonicParsing="false" text="Disable music" />
            <CustomMenuItem>
                <content>
                    <VBox spacing="5">
@@ -40,15 +40,15 @@
        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
      </rowConstraints>
       <children>
-         <Button fx:id="b1" mnemonicParsing="false" onAction="#getPlay" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" />
-         <Button fx:id="b2" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#getPlay" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" GridPane.columnIndex="1" />
-         <Button fx:id="b3" layoutX="110.0" layoutY="10.0" mnemonicParsing="false" onAction="#getPlay" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" GridPane.columnIndex="2" />
-         <Button fx:id="b4" layoutX="210.0" layoutY="10.0" mnemonicParsing="false" onAction="#getPlay" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" GridPane.rowIndex="1" />
-         <Button fx:id="b5" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" onAction="#getPlay" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-         <Button fx:id="b6" layoutX="110.0" layoutY="110.0" mnemonicParsing="false" onAction="#getPlay" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-         <Button fx:id="b7" layoutX="210.0" layoutY="110.0" mnemonicParsing="false" onAction="#getPlay" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" GridPane.rowIndex="2" />
-         <Button fx:id="b8" layoutX="10.0" layoutY="211.0" mnemonicParsing="false" onAction="#getPlay" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-         <Button fx:id="b9" layoutX="110.0" layoutY="211.0" mnemonicParsing="false" onAction="#getPlay" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+         <Button fx:id="b1" mnemonicParsing="false" onAction="#getClickedButton" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" />
+         <Button fx:id="b2" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#getClickedButton" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" GridPane.columnIndex="1" />
+         <Button fx:id="b3" layoutX="110.0" layoutY="10.0" mnemonicParsing="false" onAction="#getClickedButton" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" GridPane.columnIndex="2" />
+         <Button fx:id="b4" layoutX="210.0" layoutY="10.0" mnemonicParsing="false" onAction="#getClickedButton" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" GridPane.rowIndex="1" />
+         <Button fx:id="b5" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" onAction="#getClickedButton" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         <Button fx:id="b6" layoutX="110.0" layoutY="110.0" mnemonicParsing="false" onAction="#getClickedButton" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+         <Button fx:id="b7" layoutX="210.0" layoutY="110.0" mnemonicParsing="false" onAction="#getClickedButton" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" GridPane.rowIndex="2" />
+         <Button fx:id="b8" layoutX="10.0" layoutY="211.0" mnemonicParsing="false" onAction="#getClickedButton" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <Button fx:id="b9" layoutX="110.0" layoutY="211.0" mnemonicParsing="false" onAction="#getClickedButton" opacity="0.0" prefHeight="197.0" prefWidth="216.0" text="Button" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2" />
       </children>
    </GridPane>
    <Button fx:id="buttonBackToLobby" layoutX="14.0" layoutY="42.0" mnemonicParsing="false" onAction="#backToLobby" text="Back to lobby" />

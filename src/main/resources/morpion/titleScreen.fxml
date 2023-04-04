@@ -38,7 +38,7 @@
             <MenuItem mnemonicParsing="false" onAction="#openModelSettings" text="Models" />
         </Menu>
        <Menu mnemonicParsing="false" text="Audio">
-          <MenuItem fx:id="soundMenu" onAction="#openSound" mnemonicParsing="false" text="Disable music" />
+          <MenuItem fx:id="soundMenu" onAction="#muteAudio" mnemonicParsing="false" text="Disable music" />
           <CustomMenuItem>
              <content>
                 <VBox spacing="5">

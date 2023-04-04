@@ -30,7 +30,7 @@ public class ModelController {
                 @Override
                 public void handle(ActionEvent event) {
                     String buttonName = button.getText();
-                    onClickButton(fileName);
+                    deleteModel(fileName);
                 }
             });
             GridPane.setColumnIndex(label, 0);
@@ -46,10 +46,9 @@ public class ModelController {
         scrollPane.setContent(paneModels);
     }
 
-    private void onClickButton(String buttonName) {
+    private void deleteModel(String buttonName) {
         File model = new File("src/main/resources/models/" + buttonName);
         model.delete();
         initialize();
     }
-
 }
