@@ -34,20 +34,18 @@ import java.io.IOException;
 import static ai.Test.loadCoupsFromFile;
 
 public class MainController {
-    private double epochs = 1000000;
+    private final double epochs = 1000000;
     private Parent root;
     private Scene scene;
     private Stage stage;
     private String difficulty = "M";
-    private Player playerToPlay;
-    private static boolean isMulti = false;
-    private static Player player1 = new Player();
-    private static Player player2 = new Player();
+    private static Player playerToPlay;
+    private static final Player player1 = new Player();
+    private static final Player player2 = new Player();
     private Timeline delayBackground;
-    private double[] gameArray = new double[9];
+    private final double[] gameArray = new double[9];
     private ImageView backgroundTop;
-    private ImageView backgroundBottom;
-    private static MultiLayerPerceptron net;
+    private static MultiLayerPerceptron network;
     private static MediaPlayer mediaPlayer;
     private static MediaPlayer newMediaPlayer;
     private static boolean isMuted = false;
@@ -82,11 +80,11 @@ public class MainController {
     @FXML
     TextField textName2;
     @FXML
-    Label labelName1;
+    Label errorName1;
     @FXML
-    Label labelName2;
+    Label errorName2;
     @FXML
-    Label winLabel;
+    Label infoLabel;
     @FXML
     Button b1;
     @FXML
@@ -121,11 +119,11 @@ public class MainController {
     // Initialize menu
     public void initialize() {
         setupAudio();
-        if (singlePlayerButton != null){ //Si on est dans l'écran titre
+        if (singlePlayerButton != null){ // If we are on the title screen
             Image backgroundTopimg = new Image("file:resources/images/backgroundTop.png");
             Image backgroundBottomimg = new Image("file:resources/images/backgroundBottom.png");
             backgroundTop = new ImageView(backgroundTopimg);
-            backgroundBottom = new ImageView(backgroundBottomimg);
+            ImageView backgroundBottom = new ImageView(backgroundBottomimg);
             mainPane.getChildren().add(backgroundTop);
             mainPane.getChildren().add(backgroundBottom);
             backgroundTop.toBack();
@@ -135,26 +133,16 @@ public class MainController {
             delayBackground.getKeyFrames().add(new KeyFrame(Duration.millis(700), event -> animateTitleScreenBackground()));
             delayBackground.play();
         }
-        else if (playGrid != null) { //Si on est dans le jeu
+        else if (playGrid != null) { // If we are in the game screen
             changeMusicTrack("./src/main/resources/sounds/MorpionOST.mp3");
             labelScore1.setText(player1.getName() + "\n" + "Score: 0");
             labelScore2.setText(player2.getName() + "\n" + "Score: 0");
             for (int i=0; i<9; i++){
                 gameArray[i]=0;
             }
-            final int randPlayer = (int) (Math.random() * (3 - 1)) + 1;
-            if (randPlayer == 1){
-                player1.setPiece(-1.0);
-                player2.setPiece(1.0);
-                playerToPlay = player1;
-            }
-            else {
-                player1.setPiece(1.0);
-                player2.setPiece(-1.0);
-                playerToPlay = player2;
-            }
-            if (!player2.isIa()){ //Si on est en mode multijoueur
-                winLabel.setText("Au tour de " + playerToPlay.getName());
+            setRandomPlayer();
+            if (!player2.isIa()){ // If we're in multiplayer
+                infoLabel.setText(playerToPlay.getName() + "'s turn");
             }
             mainGameLogic("none");
         }
@@ -242,17 +230,13 @@ public class MainController {
         player2.setName("IA");
         player2.setIa(true);
         backToMenu.setDisable(true);
-        isMulti=false;
         try {
             if (easyRadio.isSelected()) {
                 difficulty = "F";
-                epochs = 10000000;
             } else if (mediumRadio.isSelected()) {
                 difficulty = "M";
-                epochs = 1000000;
             } else {
                 difficulty = "D";
-                epochs = 1000000;
             }
             ConfigFileLoader configuration = new ConfigFileLoader();
             configuration.loadConfigFile("resources/config.txt");
@@ -268,17 +252,16 @@ public class MainController {
             String modelpath = "src/main/resources/models/model_" + configuration.get(difficulty).numberOfhiddenLayers + "_" + configuration.get(difficulty).learningRate + "_" + configuration.get(difficulty).hiddenLayerSize;
 
             File model = new File(modelpath);
-            if (model.exists() && !model.isDirectory()) {
-                net = MultiLayerPerceptron.load(modelpath);
+            if (model.exists() && !model.isDirectory()) { // If the model is already trained
+                network = MultiLayerPerceptron.load(modelpath);
                 root = FXMLLoader.load(getClass().getResource("game.fxml"));
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 stage.setResizable(false);
                 stage.setScene(scene);
                 stage.show();
-                initialize();
             }
-            else {
+            else { // We need to train the model
                 progressBar.setVisible(true);
                 textError.setVisible(true);
                 buttonValidate.setDisable(true);
@@ -290,7 +273,7 @@ public class MainController {
                         System.out.println();
 
                         double error = 0.0;
-                        net = new MultiLayerPerceptron(layers, configuration.get(difficulty).learningRate, new SigmoidalTransferFunction());
+                        network = new MultiLayerPerceptron(layers, configuration.get(difficulty).learningRate, new SigmoidalTransferFunction());
 
                         System.out.println("---");
                         System.out.println("Load data ...");
@@ -304,15 +287,10 @@ public class MainController {
                                 c = mapTrain.get((int) (Math.round(Math.random() * mapTrain.size())));
 
 
-                            error += net.backPropagate(c.in, c.out);
+                            error += network.backPropagate(c.in, c.out);
 
 
-                            if (i % 10000 == 0 && difficulty != "D") {
-                                System.out.println("Error at step " + i + " is " + (error / (double) i));
-                                updateMessage("Error at step "+i+" is "+ (error/(double)i));
-                                updateProgress(i, epochs);
-                            }
-                            else if (i % 100 == 0 && difficulty == "D") {
+                            if (i % 10000 == 0) {
                                 System.out.println("Error at step " + i + " is " + (error / (double) i));
                                 updateMessage("Error at step "+i+" is "+ (error/(double)i));
                                 updateProgress(i, epochs);
@@ -321,14 +299,14 @@ public class MainController {
 
                         error /= epochs ;
 
-                        textError.setTextFill(Color.valueOf("#17C42B"));
+                        textError.setTextFill(Color.valueOf("#004f09"));
 
                         System.out.println("Learning completed! Error is "+error);
                         updateMessage("Learning completed! Error is "+error);
                         updateProgress(epochs, epochs);
 
 
-                        net.save(modelpath);
+                        network.save(modelpath);
                         buttonValidate.setDisable(false);
                         backToMenu.setDisable(false);
                         return 0;
@@ -338,7 +316,6 @@ public class MainController {
                 progressBar.progressProperty().bind(trainingTask.progressProperty());
                 textError.textProperty().bind(trainingTask.messageProperty());
                 trainingThread.start();
-
             }
         }
         catch (Exception e) {
@@ -350,23 +327,22 @@ public class MainController {
 
     @FXML
     public void getPlayMulti(ActionEvent event) throws IOException{
-        labelName1.setVisible(false);
-        labelName2.setVisible(false);
+        errorName1.setVisible(false);
+        errorName2.setVisible(false);
         if (textName1.getText().isBlank() && textName2.getText().isBlank()){
-            labelName1.setVisible(true);
-            labelName2.setVisible(true);
+            errorName1.setVisible(true);
+            errorName2.setVisible(true);
         }
         else if (textName1.getText().isBlank()){
-            labelName1.setVisible(true);
+            errorName1.setVisible(true);
         }
         else if (textName2.getText().isBlank()){
-            labelName2.setVisible(true);
+            errorName2.setVisible(true);
         }
         else {
             player1.setName(textName1.getText());
             player2.setName(textName2.getText());
             player2.setIa(false);
-            isMulti=true;
             root = FXMLLoader.load(getClass().getResource("game.fxml"));
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
@@ -381,7 +357,7 @@ public class MainController {
         changeMusicTrack("./src/main/resources/sounds/MorpionOST2.mp3");
         player1.setScore(0);
         player2.setScore(0);
-        if (isMulti) {
+        if (!player2.isIa()) {
             root = FXMLLoader.load(getClass().getResource("startMultiGame.fxml"));
         }
         else {
@@ -406,97 +382,97 @@ public class MainController {
     public void mainGameLogic(String buttonId) {
         Image X = new Image("file:resources/images/X.png");
         Image O = new Image("file:resources/images/O.png");
-        ImageView imageView;
+        ImageView pieceImage;
         if (playerToPlay.getPiece() == -1.0){
-            imageView = new ImageView(X);
+            pieceImage = new ImageView(X);
         }
         else {
-            imageView = new ImageView(O);
+            pieceImage = new ImageView(O);
         }
-        GridPane.setMargin(imageView, new Insets(25, 25, 25, 25));
-        if (playerToPlay.isIa()){
+        GridPane.setMargin(pieceImage, new Insets(25, 25, 25, 25));
+        if (playerToPlay.isIa()){ // If the current player is the IA
             int index = getIAMove();
-            gameArray[index]=playerToPlay.getPiece();
+            gameArray[index] = playerToPlay.getPiece();
             switch (index) {
                 case 0 -> b1.setDisable(true);
                 case 1 -> {
                     b2.setDisable(true);
-                    GridPane.setColumnIndex(imageView, 1);
+                    GridPane.setColumnIndex(pieceImage, 1);
                 }
                 case 2 -> {
                     b3.setDisable(true);
-                    GridPane.setColumnIndex(imageView, 2);
+                    GridPane.setColumnIndex(pieceImage, 2);
                 }
                 case 3 -> {
                     b4.setDisable(true);
-                    GridPane.setRowIndex(imageView, 1);
+                    GridPane.setRowIndex(pieceImage, 1);
                 }
                 case 4 -> {
                     b5.setDisable(true);
-                    GridPane.setRowIndex(imageView, 1);
-                    GridPane.setColumnIndex(imageView, 1);
+                    GridPane.setRowIndex(pieceImage, 1);
+                    GridPane.setColumnIndex(pieceImage, 1);
                 }
                 case 5 -> {
                     b6.setDisable(true);
-                    GridPane.setRowIndex(imageView, 1);
-                    GridPane.setColumnIndex(imageView, 2);
+                    GridPane.setRowIndex(pieceImage, 1);
+                    GridPane.setColumnIndex(pieceImage, 2);
                 }
                 case 6 -> {
                     b7.setDisable(true);
-                    GridPane.setRowIndex(imageView, 2);
+                    GridPane.setRowIndex(pieceImage, 2);
                 }
                 case 7 -> {
                     b8.setDisable(true);
-                    GridPane.setRowIndex(imageView, 2);
-                    GridPane.setColumnIndex(imageView, 1);
+                    GridPane.setRowIndex(pieceImage, 2);
+                    GridPane.setColumnIndex(pieceImage, 1);
                 }
                 case 8 -> {
                     b9.setDisable(true);
-                    GridPane.setRowIndex(imageView, 2);
-                    GridPane.setColumnIndex(imageView, 2);
+                    GridPane.setRowIndex(pieceImage, 2);
+                    GridPane.setColumnIndex(pieceImage, 2);
                 }
             }
         }
-        else {
+        else { // If the current player is a real player
             switch (buttonId) {
                 case "b1" -> gameArray[0] = playerToPlay.getPiece();
                 case "b2" -> {
                     gameArray[1] = playerToPlay.getPiece();
-                    GridPane.setColumnIndex(imageView, 1);
+                    GridPane.setColumnIndex(pieceImage, 1);
                 }
                 case "b3" -> {
                     gameArray[2] = playerToPlay.getPiece();
-                    GridPane.setColumnIndex(imageView, 2);
+                    GridPane.setColumnIndex(pieceImage, 2);
                 }
                 case "b4" -> {
                     gameArray[3] = playerToPlay.getPiece();
-                    GridPane.setColumnIndex(imageView, 0);
-                    GridPane.setRowIndex(imageView, 1);
+                    GridPane.setColumnIndex(pieceImage, 0);
+                    GridPane.setRowIndex(pieceImage, 1);
                 }
                 case "b5" -> {
                     gameArray[4] = playerToPlay.getPiece();
-                    GridPane.setRowIndex(imageView, 1);
-                    GridPane.setColumnIndex(imageView, 1);
+                    GridPane.setRowIndex(pieceImage, 1);
+                    GridPane.setColumnIndex(pieceImage, 1);
                 }
                 case "b6" -> {
                     gameArray[5] = playerToPlay.getPiece();
-                    GridPane.setRowIndex(imageView, 1);
-                    GridPane.setColumnIndex(imageView, 2);
+                    GridPane.setRowIndex(pieceImage, 1);
+                    GridPane.setColumnIndex(pieceImage, 2);
                 }
                 case "b7" -> {
                     gameArray[6] = playerToPlay.getPiece();
-                    GridPane.setColumnIndex(imageView, 0);
-                    GridPane.setRowIndex(imageView, 2);
+                    GridPane.setColumnIndex(pieceImage, 0);
+                    GridPane.setRowIndex(pieceImage, 2);
                 }
                 case "b8" -> {
                     gameArray[7] = playerToPlay.getPiece();
-                    GridPane.setColumnIndex(imageView, 1);
-                    GridPane.setRowIndex(imageView, 2);
+                    GridPane.setColumnIndex(pieceImage, 1);
+                    GridPane.setRowIndex(pieceImage, 2);
                 }
                 case "b9" -> {
                     gameArray[8] = playerToPlay.getPiece();
-                    GridPane.setColumnIndex(imageView, 2);
-                    GridPane.setRowIndex(imageView, 2);
+                    GridPane.setColumnIndex(pieceImage, 2);
+                    GridPane.setRowIndex(pieceImage, 2);
                 }
                 case "none" -> {
                     return;
@@ -506,10 +482,10 @@ public class MainController {
         FadeTransition fade = new FadeTransition();
         fade.setDuration(Duration.millis(500));
         fade.setFromValue(0);
-        fade.setToValue(10);
-        fade.setNode(imageView);
+        fade.setToValue(1);
+        fade.setNode(pieceImage);
         fade.play();
-        playGrid.getChildren().add(imageView);
+        playGrid.getChildren().add(pieceImage);
         if (checkWinner(gameArray, playGrid)) {
             playerToPlay.setScore(playerToPlay.getScore() + 1);
             if (playerToPlay == player1){
@@ -518,8 +494,8 @@ public class MainController {
             else {
                 labelScore2.setText(player2.getName() + "\n" + "Score: " + player2.getScore());
             }
-            winLabel.setText(playerToPlay.getName() + " a gagné !");
-            winLabel.setVisible(true);
+            infoLabel.setText(playerToPlay.getName() + " won !");
+            infoLabel.setVisible(true);
             replayButton.setVisible(true);
             playGrid.setDisable(true);
             return;
@@ -528,11 +504,12 @@ public class MainController {
         for (Double value : gameArray) {
             if (value == 0.0) {
                 isFinished = false;
+                break;
             }
         }
         if (isFinished) {
-            winLabel.setText("Égalité !");
-            winLabel.setVisible(true);
+            infoLabel.setText("Égalité !");
+            infoLabel.setVisible(true);
             replayButton.setVisible(true);
             playGrid.setDisable(true);
             return;
@@ -543,8 +520,8 @@ public class MainController {
         else {
             playerToPlay = player1;
         }
-        if (!player2.isIa()){ //Si on est en mode multijoueur
-            winLabel.setText("Au tour de " + playerToPlay.getName());
+        if (!player2.isIa()){ // If we're in multiplayer
+            infoLabel.setText("Au tour de " + playerToPlay.getName());
         }
         if (player2.isIa()){
             mainGameLogic("none");
@@ -554,7 +531,7 @@ public class MainController {
     public void resetGrid() {
         replayButton.setVisible(false);
         ObservableList<Node> children = playGrid.getChildren();
-        List<Node> nodesToRemove = new ArrayList<>(); // Nouvelle liste pour stocker les noeuds à supprimer
+        List<Node> nodesToRemove = new ArrayList<>();
         for (Node child : children) {
             if (child instanceof ImageView) {
                 nodesToRemove.add(child);
@@ -564,24 +541,14 @@ public class MainController {
             }
         }
         playGrid.setDisable(false);
-        winLabel.setText("");
-        playGrid.getChildren().removeAll(nodesToRemove); // Supprimer les noeuds de la liste principale en une seule fois
+        infoLabel.setText("");
+        playGrid.getChildren().removeAll(nodesToRemove);
         for (int i=0; i<9; i++) {
             gameArray[i] = 0;
         }
-        final int randPlayer = (int) (Math.random() * (3 - 1)) + 1;
-        if (randPlayer == 1){
-            player1.setPiece(-1.0);
-            player2.setPiece(1.0);
-            playerToPlay = player1;
-        }
-        else {
-            player1.setPiece(1.0);
-            player2.setPiece(-1.0);
-            playerToPlay = player2;
-        }
-        if (!player2.isIa()){ //Si on est en mode multijoueur
-            winLabel.setText("Au tour de " + playerToPlay.getName());
+        setRandomPlayer();
+        if (!player2.isIa()){ // If we're in multiplayer
+            infoLabel.setText("Au tour de " + playerToPlay.getName());
         }
         mainGameLogic("none");
     }
@@ -589,7 +556,7 @@ public class MainController {
     public int getIAMove(){
         double min=100;
         int index = 0;
-        double[] probaCoups = net.forwardPropagation(gameArray);
+        double[] probaCoups = network.forwardPropagation(gameArray);
         for (int i=0; i < probaCoups.length; i++){
             if (probaCoups[i] < min && gameArray[i] == 0){
                 System.out.println(gameArray[i]);
@@ -606,8 +573,8 @@ public class MainController {
         Image O = new Image("file:resources/images/redO.png");
         ImageView imageView;
         for (int i = 0; i < 9; i += 3) {
-            if (board[i] == board[i+1] && board[i+1] == board[i+2] && board[i] != 0.0) {
-                for (int j=0; j < 3; j++){
+            if (board[i] == board[i+1] && board[i+1] == board[i+2] && board[i] != 0.0) { // Lines
+                for (int j = 0; j < 3; j++){
                     if (board[i] == -1.0){
                         imageView = new ImageView(X);
                     }
@@ -629,8 +596,8 @@ public class MainController {
             }
         }
         for (int i = 0; i < 3; i++) {
-            if (board[i] == board[i+3] && board[i+3] == board[i+6] && board[i] != 0.0) {
-                for (int j=0; j < 3; j++){
+            if (board[i] == board[i+3] && board[i+3] == board[i+6] && board[i] != 0.0) { // Columns
+                for (int j = 0; j < 3; j++){
                     if (board[i] == -1.0){
                         imageView = new ImageView(X);
                     }
@@ -651,7 +618,7 @@ public class MainController {
                 return true;
             }
         }
-        if (board[0] == board[4] && board[4] == board[8] && board[0] != 0.0) {
+        if (board[0] == board[4] && board[4] == board[8] && board[0] != 0.0) { // First diagonal
             for (int j = 0; j < 3; j++) {
                 if (board[0] == -1.0) {
                     imageView = new ImageView(X);
@@ -671,7 +638,7 @@ public class MainController {
             }
             return true;
         }
-        if (board[2] == board[4] && board[4] == board[6] && board[2] != 0.0) {
+        if (board[2] == board[4] && board[4] == board[6] && board[2] != 0.0) { // Second diagonal
             for (int j = 0; j < 3; j++) {
                 if (board[2] == -1.0) {
                     imageView = new ImageView(X);
@@ -690,15 +657,29 @@ public class MainController {
                 playGrid.getChildren().add(imageView);
             }
             return true;
-
         }
         return false;
     }
 
+    public static void setRandomPlayer() {
+        final int randPlayer = (int) (Math.random() * (3 - 1)) + 1;
+        if (randPlayer == 1){
+            player1.setPiece(-1.0);
+            player2.setPiece(1.0);
+            playerToPlay = player1;
+        }
+        else {
+            player1.setPiece(1.0);
+            player2.setPiece(-1.0);
+            playerToPlay = player2;
+        }
+    }
+
+    // Animation and music functions
     public void animateTitleScreenBackground(){
         Image animImage;
-        int img = (int) (Math.random() * (3 - 1)) + 1;
-        if (img == 1){
+        int randomImg = (int) (Math.random() * (3 - 1)) + 1;
+        if (randomImg == 1){
             animImage = new Image("file:resources/images/X.png");
         }
         else {
@@ -707,8 +688,8 @@ public class MainController {
         ImageView imageTitleScreen = new ImageView(animImage);
 
         double randOpacity = 0.1 + Math.random() * (0.9 - 0.1);
-        double randSpeedMove = (int) (Math.random() * (8000 - 4000)) + 10000;
-        double randSize =  0.7 + Math.random() * (1.7 - 0.7);
+        double randSpeedMove = (int) (Math.random() * 4000) + 10000;
+        double randSize =  0.7 + Math.random();
         double randPos = (int) (Math.random() * 635);
         double randRot = Math.random() * 360;
 
@@ -722,6 +703,7 @@ public class MainController {
         imageTitleScreen.setScaleX(randSize);
         imageTitleScreen.setScaleY(randSize);
         mainPane.getChildren().add(imageTitleScreen);
+        // To make the shapes go behind the mountains and above the background
         imageTitleScreen.toBack();
         backgroundTop.toBack();
 
@@ -769,6 +751,7 @@ public class MainController {
             mediaPlayer.play();
         }
     }
+
     public void muteAudio() {
         if (!isMuted) {
             volume = 0.0;
@@ -824,5 +807,4 @@ public class MainController {
             mediaPlayer.play();
         }
     }
-
 }

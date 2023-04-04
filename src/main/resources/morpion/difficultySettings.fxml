@@ -27,6 +27,6 @@
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="21.0" layoutY="134.0" prefHeight="40.0" prefWidth="79.0" text="Medium" textAlignment="CENTER" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="21.0" layoutY="184.0" prefHeight="40.0" prefWidth="79.0" text="Hard" textAlignment="CENTER" />
       <Label fx:id="errorMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="67.0" layoutY="224.0" prefHeight="17.0" prefWidth="267.0" text="Error, please fill all the blanks" textAlignment="CENTER" textFill="RED" visible="false" />
-      <Label fx:id="successMessage" alignment="CENTER" layoutX="98.0" layoutY="224.0" prefHeight="17.0" prefWidth="201.0" text="Changes successfully saved !" textAlignment="CENTER" textFill="#17c42b" visible="false" />
+      <Label fx:id="successMessage" alignment="CENTER" layoutX="98.0" layoutY="224.0" prefHeight="17.0" prefWidth="201.0" text="Changes successfully saved !" textAlignment="CENTER" textFill="#004f09" visible="false" />
    </children>
 </Pane>

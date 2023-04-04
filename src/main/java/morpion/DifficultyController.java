@@ -43,6 +43,7 @@ public class DifficultyController {
         ConfigFileLoader configuration = new ConfigFileLoader();
         configuration.loadConfigFile("resources/config.txt");
 
+        // Configure all regex
         setNumericTextFormater(ndEasy);
         setNumericTextFormater(ndMedium);
         setNumericTextFormater(ndHard);
@@ -53,6 +54,7 @@ public class DifficultyController {
         setNumericTextFormater(layMedium);
         setNumericTextFormater(layHard);
 
+        // Set the fields
         ndEasy.setText(Integer.toString(configuration.get("F").hiddenLayerSize));
         ndMedium.setText(Integer.toString(configuration.get("M").hiddenLayerSize));
         ndHard.setText(Integer.toString(configuration.get("D").hiddenLayerSize));
@@ -108,19 +110,16 @@ public class DifficultyController {
 
         if ((ndEasyValue.isBlank()) || (layEasyValue.isBlank()) || (learnEasyValue.isBlank()) || (ndMediumValue.isBlank()) || (layMediumValue.isBlank())
                 || (learnMediumValue.isBlank()) || (ndHardValue.isBlank()) || (layHardValue.isBlank()) || (learnHardValue.isBlank())) {
-            validate = false;
             successMessage.setVisible(false);
             errorMessage.setVisible(true);
+            return;
         }
-
-        if (validate) {
-            errorMessage.setVisible(false);
-            successMessage.setVisible(true);
-            File config = new File("resources/config.txt");
-            FileWriter writer = new FileWriter(config, false);
-            writer.write(parameters);
-            writer.close();
-        };
+        errorMessage.setVisible(false);
+        successMessage.setVisible(true);
+        File config = new File("resources/config.txt");
+        FileWriter writer = new FileWriter(config, false);
+        writer.write(parameters);
+        writer.close();
     }
 
     @FXML

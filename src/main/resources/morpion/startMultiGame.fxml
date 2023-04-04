@@ -61,6 +61,6 @@
       </textFill>
    </Label>
    <Button layoutX="277.0" layoutY="439.0" mnemonicParsing="false" onAction="#getPlayMulti" text="Play" />
-   <Label fx:id="labelName1" layoutX="247.0" layoutY="275.0" text="Choose a username" textFill="RED" visible="false" />
-   <Label fx:id="labelName2" layoutX="248.0" layoutY="384.0" text="Choose a username" textFill="RED" visible="false" />
+   <Label fx:id="errorName1" layoutX="247.0" layoutY="275.0" text="Choose a username" textFill="RED" visible="false" />
+   <Label fx:id="errorName2" layoutX="248.0" layoutY="384.0" text="Choose a username" textFill="RED" visible="false" />
 </AnchorPane>

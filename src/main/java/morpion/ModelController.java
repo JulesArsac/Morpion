@@ -29,7 +29,6 @@ public class ModelController {
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    String buttonName = button.getText();
                     deleteModel(fileName);
                 }
             });
@@ -46,8 +45,8 @@ public class ModelController {
         scrollPane.setContent(paneModels);
     }
 
-    private void deleteModel(String buttonName) {
-        File model = new File("src/main/resources/models/" + buttonName);
+    private void deleteModel(String fileName) {
+        File model = new File("src/main/resources/models/" + fileName);
         model.delete();
         initialize();
     }
