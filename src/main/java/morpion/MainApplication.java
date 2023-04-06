@@ -5,8 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
-import java.io.File;
 import java.io.IOException;
 
 public class MainApplication extends Application {
@@ -15,7 +13,7 @@ public class MainApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("titleScreen.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 600);
         stage.setTitle("TicTacToe");
-        stage.getIcons().add(new Image("file:resources/images/Enorme.jpg"));
+        stage.getIcons().add(new Image("file:resources/images/icon.png"));
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

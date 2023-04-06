@@ -29,7 +29,6 @@ import javafx.util.Duration;
 import java.util.*;
 import java.io.File;
 import java.io.IOException;
-// import javafx.scene.media.Media;
 
 import static ai.Test.loadCoupsFromFile;
 
@@ -249,7 +248,7 @@ public class MainController {
             }
 
             layers[configuration.get(difficulty).numberOfhiddenLayers + 1] = 9;
-            String modelpath = "src/main/resources/models/model_" + configuration.get(difficulty).numberOfhiddenLayers + "_" + configuration.get(difficulty).learningRate + "_" + configuration.get(difficulty).hiddenLayerSize;
+            String modelpath = "src/main/resources/models/model_" + configuration.get(difficulty).numberOfhiddenLayers + "_" + configuration.get(difficulty).learningRate + "_" + configuration.get(difficulty).hiddenLayerSize + ".srl";
 
             File model = new File(modelpath);
             if (model.exists() && !model.isDirectory()) { // If the model is already trained
