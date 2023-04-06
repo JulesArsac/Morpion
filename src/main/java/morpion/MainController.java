@@ -520,7 +520,7 @@ public class MainController {
             playerToPlay = player1;
         }
         if (!player2.isIa()){ // If we're in multiplayer
-            infoLabel.setText("Au tour de " + playerToPlay.getName());
+            infoLabel.setText(playerToPlay.getName() + "'s turn");
         }
         if (player2.isIa()){
             mainGameLogic("none");
@@ -547,7 +547,7 @@ public class MainController {
         }
         setRandomPlayer();
         if (!player2.isIa()){ // If we're in multiplayer
-            infoLabel.setText("Au tour de " + playerToPlay.getName());
+            infoLabel.setText(playerToPlay.getName() + "'s turn");
         }
         mainGameLogic("none");
     }
